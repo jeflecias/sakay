@@ -1,4 +1,6 @@
 import tkinter as tk
+from backend_for_pickup_location import *
+
 #hellow guys sabi ni gpt di daw gagana yung import * unless isa isahin ko sow-
 from tkinter import Frame, Label, Button
 
@@ -10,6 +12,10 @@ def create_styled_label(parent, text, font_size=12):
 def create_styled_button(parent, text, command):
     button = Button(parent, text=text, fg='#4ff244', bg='black', relief='ridge', bd=5, command=command)
     return button
+
+def create_styled_entry(parent, text):
+    entry = Entry(parent, text=text, fg='#4ff244', bg='black', relief='ridge', bd=5)
+    return entry
 # base page or parent class
 class Page0(Frame):
     def __init__(self, parent, controller):
@@ -36,11 +42,11 @@ class HomePage(Page0):
         create_styled_button(self, "Chinese naval Warship", lambda: self.controller.show_frame("ChineseNavalWarship")).pack(pady=20)
 
 # gumawa aq dito ng frames or pages for each selection ng vehicles naten para sa kanya kanyang vehicle
-class MotoTaxiPage(Page0):
+class MotoTaxiPage(Page0, UserInputApp):
     def __init__(self, parent, controller):
         Page0.__init__(self, parent, controller)
         create_styled_label(self, "MotoTaxi Booking", font_size=16).pack(pady=10)
-        create_styled_label(self, "Enter your destination:", font_size=12).pack(pady=5)
+        create_styled_entry(self, "Enter your destination:").pack(pady=5)
         create_styled_button(self, "Back to Home", lambda: self.controller.show_frame("HomePage")).pack(pady=10)
 
 class Four_SeaterPage(Page0):
@@ -119,3 +125,4 @@ if __name__ == "__main__":
     app.mainloop()
 
 # yeheyyyy
+# ang galing 
