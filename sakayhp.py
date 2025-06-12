@@ -1,59 +1,117 @@
 import tkinter as tk
-from tkinter import ttk
+#kelangan ko isa isahin amp
+from tkinter import Frame, Label, Button
 
-def create_app():
-    root = tk.Tk()
-    root.title("sakay")
-    root.geometry("400x600")  
+class Page0(Frame):
+    def __init__(self, parent, controller):
+        Frame.__init__(self, parent)
+        self.controller = controller
+        self.configure(bg='black', relief='ridge',bd=5)
 
-    #home page header
-    header_frame = tk.Frame(root, bg='black', height=120, relief='ridge', bd=5)
-    header_frame.pack(fill='x')
+class HomePage(Page0):
+    def __init__(self, parent, controller):
+        Page0.__init__(self, parent, controller)
+        self.create_widgets()
 
-    #home page welcoming text
-    header_label = tk.Label(header_frame, text="Welcome to Sakay", bg='black', fg='#23fa43', font=('Times New Roman', 20))
-    header_label.pack(pady=5)
-    subheader_label = tk.Label(header_frame, text="gew lang", bg='black', fg='#23fa43', font=('Times New Roman', 12))
-    subheader_label.pack()
+    def create_widgets(self):
+        # welcoming banneryheyyy
+        banner = Frame(self, bg="black", relief='ridge', bd=5, height=100)
+        banner.pack(fill="x")
+        Label(banner, text="Welcome to Sakay", font=("Times New Roman", 16), fg="#4ff244", bg="black").pack(pady=5)
+        Label(banner, text="San ka punta", font=("Times New Roman", 12), fg="#4ff244", bg="black").pack()
 
-    #image o logo basta
-    illustration_label = tk.Label(header_frame, text="dito naten lagay logo", bg='black', fg='#23fa43', font=('Times New Roman', 12))
-    illustration_label.pack(pady=10)
+        # Vehicle selection buttons
+        Button(self, text="MotoTaxi", fg='#4ff244', bg='black', relief='ridge', bd=5,
+         command=lambda: self.controller.show_frame("MotoTaxiPage")).pack(pady=20)
+        Button(self, text="4 seater", fg='#4ff244', bg='black', relief='ridge', bd=5,
+         command=lambda: self.controller.show_frame("Four_SeaterPage")).pack(pady=20)
+        Button(self, text="6 seater", fg='#4ff244', bg='black', relief='ridge', bd=5,
+         command=lambda: self.controller.show_frame("Six_Seater")).pack(pady=20)
+        Button(self, text="Chinese naval Warship", fg='#4ff244', bg='black', relief='ridge', bd=5,
+         command=lambda: self.controller.show_frame("ChineseNavalWarship")).pack(pady=20)
 
-    # main frame/body
-    content_frame = tk.Frame(root, bg='black', relief='ridge', bd=5)
-    content_frame.pack(fill='both', expand=True)
+#dito yung mga page ng kanya kanyang option sa sasakyan
 
-    #motor selection
-    moto_label = tk.Label(content_frame, text="Motor", bg='black', fg='#23fa43', font=('Times New Roman', 16), relief='ridge', bd=5)
-    moto_label.pack(pady=20)
+class MotoTaxiPage(Page0):
+    def __init__(self, parent, controller):
+        Page0.__init__(self, parent, controller)
+        Label(self, text="MotoTaxi Booking", font=("Times New Roman", 16)).pack(pady=10)
+        Label(self, text="Enter your destination:", font=("Times New Roman", 12)).pack(pady=5)
+        Button(self, text="Back to Home", command=lambda: self.controller.show_frame("MotoTaxiPage")).pack(pady=10)
 
-    #4seater car selection
-    moto_label = tk.Label(content_frame, text="4 seater car", bg='black', fg='#23fa43', font=('Times New Roman', 16), relief='ridge', bd=5)
-    moto_label.pack(pady=20)
+class Four_SeaterPage(Page0):
+    def __init__(self, parent, controller):
+        Page0.__init__(self,parent, controller)
+        Label(self, text="4 seater Booking", font=("Times New Roman", 16)).pack(pady=10)
+        Label(self, text="Enter your destination: ", font=("Times new Roman", 12)).pack(pady=5)
+        Button(self, text="back to Home", command=lambda: self.controller.show_frame("Four_SeaterPage")).pack(pady=10)
 
-    #6 seater selection
-    moto_label = tk.Label(content_frame, text="6 seater", bg='black', fg='#23fa43', font=('Times New Roman', 16), relief='ridge', bd=5)
-    moto_label.pack(pady=20)
+class Six_Seater(Page0):
+    def __init__(self, parent, controller):
+        Page0.__init__(self, parent, controller)
+        Label(self, text="6 seater Booking", font=("Times New Roman", 16)).pack(pady=10)
+        Label(self, text="Enter your destination:", font=("Times New Roman", 12)).pack(pady=5)
+        Button(self, text="Back to Home", command=lambda: self.controller.show_frame("Six_Seater")).pack(pady=10)
 
-    #North Korean Warship selection
-    moto_label = tk.Label(content_frame, text="North Korean Warship", bg='black', fg='#23fa43', font=('Times New Roman', 16), relief='ridge', bd=5)
-    moto_label.pack(pady=20)
+class ChineseNavalWarship(Page0):
+    def __init__(self, parent, controller):
+        Page0.__init__(self, parent, controller)
+        Label(self, text="Chinese NavalWarship Booking", font=("Times New Roman", 16)).pack(pady=10)
+        Label(self, text="Enter your destination:", font=("Times New Roman", 12)).pack(pady=5)
+        Button(self, text="Back to Home", command=lambda: self.controller.show_frame("ChineseNavalWarship")).pack(pady=10)
 
-    #bottom navigation bar
-    nav_frame = tk.Frame(root, bg='black', height=50, relief='ridge', bd=5)
-    nav_frame.pack(fill='x')
 
-    #other pages n shi
-    home_button = tk.Button(nav_frame, text="Home", bg='black', fg='#23fa43',font=('Times New Roman',12), relief='ridge', bd=5)
-    home_button.pack(side='left', padx=10)
-    activity_button = tk.Button(nav_frame, text="Activity", bg='black', fg='#23fa43',font=('Times New Roman',12), relief='ridge', bd=5)
-    activity_button.pack(side='left', padx=10)
-    messages_button = tk.Button(nav_frame, text="Messages", bg='black', fg='#23fa43',font=('Times New Roman',12), relief='ridge', bd=5)
-    messages_button.pack(side='left', padx=10)
-    account_button = tk.Button(nav_frame, text="Account", bg='black', fg='#23fa43',font=('Times New Roman',12), relief='ridge', bd=5)
-    account_button.pack(side='left', padx=10)
 
-    root.mainloop()
 
-create_app()
+#Eto nman mga classes para sa Bottom task bar
+class ActivityPage(Page0):
+    def __init__(self, parent, controller):
+        Page0.__init__(self, parent, controller)
+
+class MessagesPage(Page0):
+    def __init__(self, parent, controller):
+        Page0.__init__(self, parent, controller)
+
+class AccountPage(Page0):
+    def __init__(self, parent, controller):
+        Page0.__init__(self, parent, controller)
+
+class Sakay(tk.Tk):
+    def __init__(self):
+        tk.Tk.__init__(self)
+        self.title("Sakay")
+        self.geometry("400x500")
+
+        # Main layout ng frames
+        self.page_container = Frame(self)
+        self.page_container.pack(fill="both", expand=True)
+
+        self.page_container.grid_rowconfigure(0, weight=1)
+        self.page_container.grid_columnconfigure(0, weight=1)
+
+        self.frames = {}
+        for F in (HomePage, ActivityPage, MessagesPage, AccountPage, MotoTaxiPage, Four_SeaterPage, Six_Seater, ChineseNavalWarship):
+            page_name = F.__name__
+            frame = F(parent=self.page_container, controller=self)
+            self.frames[page_name] = frame
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame("HomePage")
+
+        # bottom navigation bar
+        nav_bar = Frame(self, bg="black", relief='ridge', bd=5)
+        nav_bar.pack(side="bottom", fill="x")
+        Button(nav_bar, text="Home", fg='#4ff244', bg='black', relief='ridge', bd=5, command=lambda: self.show_frame("HomePage")).pack(side="left", expand=True)
+        Button(nav_bar, text="Activity", fg='#4ff244', bg='black', relief='ridge', bd=5, command=lambda: self.show_frame("ActivityPage")).pack(side="left", expand=True)
+        Button(nav_bar, text="Messages", fg='#4ff244', bg='black', relief='ridge', bd=5, command=lambda: self.show_frame("MessagesPage")).pack(side="left", expand=True)
+        Button(nav_bar, text="Account", fg='#4ff244', bg='black', relief='ridge', bd=5, command=lambda: self.show_frame("AccountPage")).pack(side="left", expand=True)
+
+    def show_frame(self, page_name):
+        frame = self.frames[page_name]
+        frame.tkraise()
+
+
+
+if __name__ == "__main__":
+    app = Sakay()
+    app.mainloop()
