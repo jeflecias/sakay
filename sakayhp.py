@@ -46,28 +46,32 @@ class MotoTaxiPage(Page0, UserInputApp):
     def __init__(self, parent, controller):
         Page0.__init__(self, parent, controller)
         create_styled_label(self, "MotoTaxi Booking", font_size=16).pack(pady=10)
+        create_styled_label(self, "Enter your destination:", font_size=12).pack(pady=5)
         create_styled_entry(self, "Enter your destination:").pack(pady=5)
         create_styled_button(self, "Back to Home", lambda: self.controller.show_frame("HomePage")).pack(pady=10)
 
-class Four_SeaterPage(Page0):
+class Four_SeaterPage(Page0, UserInputApp):
     def __init__(self, parent, controller):
         Page0.__init__(self, parent, controller)
         create_styled_label(self, "4 seater Booking", font_size=16).pack(pady=10)
         create_styled_label(self, "Enter your destination:", font_size=12).pack(pady=5)
+        create_styled_entry(self, "Enter your destination:").pack(pady=5)
         create_styled_button(self, "Back to Home", lambda: self.controller.show_frame("HomePage")).pack(pady=10)
 
-class Six_Seater(Page0):
+class Six_Seater(Page0, UserInputApp):
     def __init__(self, parent, controller):
         Page0.__init__(self, parent, controller)
         create_styled_label(self, "6 seater Booking", font_size=16).pack(pady=10)
         create_styled_label(self, "Enter your destination:", font_size=12).pack(pady=5)
+        create_styled_entry(self, "Enter your destination:").pack(pady=5)
         create_styled_button(self, "Back to Home", lambda: self.controller.show_frame("HomePage")).pack(pady=10)
 
-class ChineseNavalWarship(Page0):
+class ChineseNavalWarship(Page0, UserInputApp):
     def __init__(self, parent, controller):
         Page0.__init__(self, parent, controller)
         create_styled_label(self, "Chinese Naval Warship Booking", font_size=16).pack(pady=10)
         create_styled_label(self, "Enter your destination:", font_size=12).pack(pady=5)
+        create_styled_entry(self, "Enter your destination:").pack(pady=5)
         create_styled_button(self, "Back to Home", lambda: self.controller.show_frame("HomePage")).pack(pady=10)
 
 # Bottom navigation bar para di ka maligaw mwa (wala pa q inaadd sa loob ng mga frames nila)
