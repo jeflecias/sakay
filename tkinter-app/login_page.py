@@ -9,6 +9,7 @@ window.title("login skelly page")
 window.geometry("300x150")
 
 # dito kayo maglagay ng funcs
+# wag nyo muna pansinin to, pinag aaralan q pa yong php nde ko ma gets
 def login():
     username = username_entry.get()
     password = password_entry.get()
