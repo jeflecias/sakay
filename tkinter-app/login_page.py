@@ -15,7 +15,7 @@ def login():
     username = username_entry.get().strip()
     password = password_entry.get().strip()
 
-    # if empty end func
+    # if empty end function
     if not (username and password):
         messagebox.showerror("Error", "enter all fields")
         return
