@@ -16,12 +16,14 @@ def register():
 
     pass
 
-# username
+# usernamee
+# pag ililimit nyo to sabihan nyo ko, para ma edit ko rin sa db
 tk.Label(window, text="Username").pack()
 username_entry = tk.Entry(window)
 username_entry.pack()
 
 # email
+# if want nyo lang, sbihan nyo den ako, if want nyo yong parang check if email is valid, or pede kayo na den bahal jan
 tk.Label(window, text="Email").pack(pady=(10, 0))
 email_entry = tk.Entry(window)
 email_entry.pack()
