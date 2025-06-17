@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from register_page import open_register
+import requests
 
 # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
 # !!!!!!!!!!!!!!!! mga front end pagandahin nyo nlng to !!!!!!!!!!!!!!!!!!
@@ -10,15 +11,35 @@ window.title("login skelly page")
 window.geometry("300x150")
 
 # dito kayo maglagay ng funcs
-# wag nyo muna pansinin to, pinag aaralan q pa yong php nde ko ma gets
 def login():
-    username = username_entry.get()
-    password = password_entry.get()
+    username = username_entry.get().strip()
+    password = password_entry.get().strip()
 
-    if username == "admin" and password == "123":
-        messagebox.showinfo("Login", "Login successful!")
-    else:
-        messagebox.showerror("Login", "Invalid.")
+    # if empty end func
+    if not (username and password):
+        messagebox.showerror("Error", "enter all fields")
+        return
+    
+    try:
+        response = requests.post("http://localhost/sakay/login.php", data={
+            "username": username,
+            "password": password
+        })
+        result = response.text.strip()
+
+        if result == "Login successful!":
+            messagebox.showinfo("Login", result)
+            # TO DO
+            # pagkatapos ma login, mabubuksan na yong main app, lalagay ko skelly dito later
+
+        else:
+            messagebox.showerror("Login", result)
+
+    except:
+        messagebox.showerror("Connection Error", "could not connect")
+    
+
+
 
 # username entry
 tk.Label(window, text="Username")
