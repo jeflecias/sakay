@@ -1,6 +1,7 @@
 # tk gamitin nyo batas na yan wag kayo mag * pag nag * sasapakin ko -jeflecias
 import tkinter as tk
 from tkinter import messagebox
+from register_page import open_register
 
 # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
 # !!!!!!!!!!!!!!!! mga front end pagandahin nyo nlng to !!!!!!!!!!!!!!!!!!
@@ -32,4 +33,6 @@ password_entry.pack()
 # login button
 tk.Button(window, text="Login", command=login).pack(pady=10)
 
+# register button
+tk.Button(window, text="No account? Register", command=open_register, fg="blue").pack()
 window.mainloop()
