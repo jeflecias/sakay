@@ -12,13 +12,30 @@ def open_register():
 
     # register function
     def register():
-        username = username_entry.get()
-        email = email_entry.get()
-        password = password_entry.get()
+        # kunin yong mga entries
+        username = username_entry.get().strip()
+        email = email_entry.get().strip()
+        password = password_entry.get().strip()
 
-        pass
+        # if empty end func
+        if not (username and email and password):
+            messagebox.showerror("Error", "fill all fields")
+            return
+        
+        try:
+            # mismong $POST
+            response = requests.post("http://localhost/sakay/register.php", data={
+                "username": username,
+                "email": email,
+                "password": password
+            })
 
-    # usernamee
+            messagebox.showinfo("Register", response.text)
+
+        except:
+            messagebox.showerror("Error", "failed connect")
+
+    # username
     # pag ililimit nyo to sabihan nyo ko, para ma edit ko rin sa db
     tk.Label(window, text="Username").pack()
     username_entry = tk.Entry(window)
