@@ -27,7 +27,7 @@ email_entry = tk.Entry(window)
 email_entry.pack()
 
 # password
-# for frontend, cguro kayo mag add like password str
+# for frontend, cguro kayo mag add like password strength something o enter your password twice hahaha
 tk.Label(window, text="Password").pack(pady=(10, 0))
 password_entry = tk.Entry(window, show="*")
 password_entry.pack()
