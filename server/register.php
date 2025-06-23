@@ -6,6 +6,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $username = trim($_POST["username"]);
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
+    $is_passenger = (int) $_POST["is_passenger"];
+    $is_driver = (int) $_POST["is_driver"];
 
     // check if empty
     if (empty($username) || empty($email) || empty($password)) {
@@ -17,10 +19,10 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $password_hash = password_hash($password, PASSWORD_DEFAULT);
 
     // sql statement, basically in-insert nya into the users table
-    $stmt = $pdo->prepare("INSERT INTO users (username, email, password_hash) VALUES (?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO users (username, email, password_hash, is_passenger, is_driver) VALUES (?, ?, ?, ?, ?)");
 
     try {
-        $stmt->execute([$username, $email, $password_hash]);
+        $stmt->execute([$username, $email, $password_hash, $is_passenger, $is_driver]);
         echo "Registration successful!";
     } catch (PDOException $e) {
         // pag 23000, duplicate, tapos mag error

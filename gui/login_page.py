@@ -8,7 +8,7 @@ import requests
 # !!!!!!!!!!!!!!!! mga front end pagandahin nyo nlng to !!!!!!!!!!!!!!!!!!
 window = tk.Tk()
 window.title("login skelly page")
-window.geometry("300x150")
+window.geometry("300x300")
 
 # dito kayo maglagay ng funcs
 def login():
@@ -47,7 +47,7 @@ username_entry = tk.Entry(window)
 username_entry.pack()
 
 # password entry
-tk.Label(window, text="Password").pack(pady=(10,0))
+tk.Label(window, text="Password").pack(pady=(10))
 password_entry = tk.Entry(window, show="*")
 password_entry.pack()
 
