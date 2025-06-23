@@ -28,8 +28,19 @@ def open_register():
 
         if role == "passenger":
             is_passenger = 1
-        else:
+        elif role == "driver":
             is_driver = 1
+    
+        print({
+            "username": username,
+            "email": email,
+            "password": password,
+            "is_driver": is_driver,
+            "is_passenger": is_passenger,
+            "role": role
+        })
+
+
         
         try:
             # mismong $POST
