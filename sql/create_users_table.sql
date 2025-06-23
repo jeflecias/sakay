@@ -5,5 +5,7 @@ CREATE TABLE users (
     username VARCHAR(50) NOT NULL UNIQUE,  -- username must be unique & not empty
     email VARCHAR(100) NOT NULL UNIQUE, -- email must be unique & not empty
     password_hash VARCHAR(255) NOT NULL, -- password not empty, 255 kase ihahash
-    created_at DATETIME DEFAULT CURRENT_TIMESTAMP -- time stamp lang
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- time stamp lang
+    is_passenger BOOLEAN DEFAULT FALSE, -- tinitignan kung passenger
+    is_driver BOOLEAN DEFAULT FALSE -- tinitignan kung driver
 );
