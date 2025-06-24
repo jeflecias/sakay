@@ -1,6 +1,6 @@
 import tkinter as tk
 from tkinter import Frame, Label, Button, Entry
-from backend_for_pickup_location import UserInputApp
+from backend.backend_for_pickup_location import UserInputApp
 from PIL import Image, ImageTk
 import os
 
@@ -58,10 +58,10 @@ class HomePage(Page0):
         super().__init__(parent, controller)
 
         # Load images using absolute path
-        self.moto_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "motor.png")).resize((64, 64)))
-        self.car4_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "sedan.png")).resize((64, 64)))
-        self.car6_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "van.png")).resize((64, 64)))
-        self.ship_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "warship.png")).resize((50, 50)))
+        self.moto_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "img", "motor.png")).resize((64, 64)))
+        self.car4_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "img", "sedan.png")).resize((64, 64)))
+        self.car6_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "img", "van.png")).resize((64, 64)))
+        self.ship_img = ImageTk.PhotoImage(Image.open(os.path.join(BASE_DIR, "img", "warship.png")).resize((50, 50)))
 
         self.create_widgets()
 
