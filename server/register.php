@@ -3,7 +3,6 @@
 require 'db.php';
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    file_put_contents(__DIR__ . "/debug_post.txt", print_r($_POST, true));
     $username = trim($_POST["username"]);
     $email = trim($_POST["email"]);
     $password = $_POST["password"];
