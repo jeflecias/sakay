@@ -34,9 +34,9 @@ def login():
             # pagkatapos ma login, mabubuksan na yong main app, lalagay ko skelly dito later
 
             if data["is_passenger"]:
-                pass
+                messagebox.showinfo("passenger,passenger")
             elif data["is_driver"]:
-                pass
+                messagebox.showinfo("driver","driver")
             else:
                 messagebox.showinfo("Role","No role assigned to this user!")
 
