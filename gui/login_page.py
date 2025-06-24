@@ -25,15 +25,23 @@ def login():
             "username": username,
             "password": password
         })
-        result = response.text.strip()
 
-        if result == "Login successful!":
-            messagebox.showinfo("Login", result)
+        data = response.json()
+
+        if data["status"] == "success":
+            messagebox.showinfo("Login", data["message"])
             # TO DO
             # pagkatapos ma login, mabubuksan na yong main app, lalagay ko skelly dito later
 
+            if data["is_passenger"]:
+                pass
+            elif data["is_driver"]:
+                pass
+            else:
+                messagebox.showinfo("Role","No role assigned to this user!")
+
         else:
-            messagebox.showerror("Login", result)
+            messagebox.showerror("Login", data["message"])
 
     except:
         messagebox.showerror("Connection Error", "could not connect")
