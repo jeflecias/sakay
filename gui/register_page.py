@@ -30,26 +30,15 @@ def open_register():
             is_passenger = 1
         elif role == "driver":
             is_driver = 1
-    
-        print({
-            "username": username,
-            "email": email,
-            "password": password,
-            "is_driver": is_driver,
-            "is_passenger": is_passenger,
-            "role": role
-        })
 
-
-        
         try:
             # mismong $POST
             response = requests.post("http://localhost/sakay/register.php", data={
                 "username": username,
                 "email": email,
                 "password": password,
-                "is_driver": is_driver,
-                "is_passenger": is_passenger
+                "is_driver": int(is_driver),
+                "is_passenger": int(is_passenger)
             })
 
             messagebox.showinfo("Register", response.text)
