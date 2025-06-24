@@ -7,6 +7,9 @@ image_labels = []
 selected_vehicle = {"name": None}
 confirm_button = None
 
+# absolute path for images
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # vehicle selection confirmation
 def confirm_selection():
     if selected_vehicle["name"]:
@@ -40,6 +43,9 @@ def resize_and_display_images(center_frame, width):
 
     # create vehicle options
     def create_option(label_text, image_path):
+        # abs image path, batas na to
+        image_path = os.path.join(BASE_DIR, "img", image_path)
+
         subframe = Frame(vehicle_frame, bg="#D2B48C", highlightbackground="white", highlightthickness=2)
         subframe.pack(side="left", padx=10, pady=10, expand=True)
 

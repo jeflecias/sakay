@@ -32,7 +32,7 @@ def login():
             messagebox.showinfo("Login", data["message"])
             # TO DO
             # pagkatapos ma login, mabubuksan na yong main app, lalagay ko skelly dito later
-
+            
             if data["is_passenger"]:
                 messagebox.showinfo("passenger,passenger")
             elif data["is_driver"]:
