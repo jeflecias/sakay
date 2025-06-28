@@ -21,7 +21,7 @@ def login():
         return
     
     try:
-        response = requests.post("http://localhost/sakay/login.php", data={
+        response = requests.post("https://6653-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/login.php", data={
             "username": username,
             "password": password
         })

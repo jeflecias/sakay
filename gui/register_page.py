@@ -33,7 +33,7 @@ def open_register():
 
         try:
             # mismong $POST
-            response = requests.post("http://localhost/sakay/register.php", data={
+            response = requests.post("https://6653-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/register.php", data={
                 "username": username,
                 "email": email,
                 "password": password,
