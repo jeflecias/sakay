@@ -4,10 +4,24 @@ from tkinter import messagebox
 import requests
 
 
+def cursor_hovering(e):
+    e.widget['background'] = '#e2eb3d'  # shiny effect
+    e.widget['fg'] = 'black'
+    e.widget['relief'] = 'raised'
+    e.widget['bd'] = '3'
+
+
+def cursor_not_hovering(e):
+    e.widget['bg'] = '#D2B48C' #default na itsura nong button
+    e.widget['fg'] = '#643602'
+    e.widget['relief'] = 'flat'
+    e.widget['bd'] = '1'
+
 def open_register():
     # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
     window = tk.Toplevel()
     window.title("register skelly page")
+    window.config(background='#D2B48C')
     window.geometry("500x500")
 
     # register function
@@ -48,31 +62,34 @@ def open_register():
 
     # username
     # pag ililimit nyo to sabihan nyo ko, para ma edit ko rin sa db
-    tk.Label(window, text="Username").pack()
+    tk.Label(window, text="Username", bg="#D2B48C", fg='#643602', font=('Comic Sans MS',9)).pack()
     username_entry = tk.Entry(window)
     username_entry.pack()
 
     # email
     # if want nyo lang, sbihan nyo den ako, if want nyo yong parang check if email is valid, or pede kayo na den bahal jan
-    tk.Label(window, text="Email").pack(pady=(10))
+    tk.Label(window, text="Email", bg="#D2B48C", fg='#643602', font=('Comic Sans MS',9)).pack(pady=(10))
     email_entry = tk.Entry(window)
     email_entry.pack()
 
     # password
     # for frontend, cguro kayo mag add like password strength something o enter your password twice hahaha
-    tk.Label(window, text="Password").pack(pady=(10))
+    tk.Label(window, text="Password", bg="#D2B48C", fg='#643602', font=('Comic Sans MS',9)).pack(pady=(10))
     password_entry = tk.Entry(window, show="*")
     password_entry.pack()
 
     # yan lagay mo kung alien ka ba o hindi
     # edit nyo to hahahahahahah
-    tk.Label(window, text="Role").pack(pady=(10))
+    tk.Label(window, text="Role", bg="#D2B48C", fg='#643602', font=('Comic Sans MS',9)).pack(pady=(10))
 
     # default value = passenger sige pord
     pord = tk.StringVar(value="passenger") 
-    tk.Radiobutton(window, text="alien ako", variable=pord, value="passenger").pack()
-    tk.Radiobutton(window, text="drayber ako", variable=pord, value="driver").pack()
+    tk.Radiobutton(window, text="alien ako", variable=pord, value="passenger", bg='#D2B48C', fg='#643602', font=('Comic Sans MS',9)).pack()
+    tk.Radiobutton(window, text="drayber ako", variable=pord, value="driver", bg='#D2B48C', fg='#643602', font=('Comic Sans MS',9)).pack()
 
     # register button
-    tk.Button(window, text="Register", command=register).pack(pady=15)
+    button = tk.Button(window, text="Register", command=register, bg='#D2B48C', fg='#643602', font=('Comic Sans MS',9))
+    button.bind("<Enter>", cursor_hovering)
+    button.bind("<Leave>", cursor_not_hovering)
+    button.pack(pady=15)
 

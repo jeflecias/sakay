@@ -7,9 +7,9 @@ import requests
 # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
 # !!!!!!!!!!!!!!!! mga front end pagandahin nyo nlng to !!!!!!!!!!!!!!!!!!
 window = tk.Tk()
-window.config(background='black')
+window.config(background='#D2B48C')
 window.title("login skelly page")
-
+window.geometry("500x500")
 # dito kayo maglagay ng funcs
 def login():
     username = username_entry.get().strip()
@@ -55,21 +55,21 @@ def cursor_hovering(e):
 
 
 def cursor_not_hovering(e):
-    e.widget['background'] = 'black' #default na itsura nong button
-    e.widget['fg'] = '#0fff13'
+    e.widget['bg'] = '#D2B48C' #default na itsura nong button
+    e.widget['fg'] = '#643602'
     e.widget['relief'] = 'flat'
     e.widget['bd'] = '1'
 
 #helper function angkalat kse eh grr
 def create_label(parent, text):
-    return tk.Label(parent, text=text, background='black', fg='#0fff13', font=('Times New Roman', 9))
+    return tk.Label(parent, text=text, background='#D2B48C', fg='#643602', font=('Comic Sans MS', 9))
 
 def create_entry(parent, **kwargs):
     return tk.Entry(parent, **kwargs)
 
 def create_button(parent, text, command):
-    btn = tk.Button(parent, text=text, command=command, font=("Times New Roman", 9),
-                    bg='black', fg='#0fff13', relief='flat', bd=1)
+    btn = tk.Button(parent, text=text, command=command, font=("Comic Sans MS", 9),
+                    bg='#D2B48C', fg='#643602', relief='flat', bd=1)
     btn.bind("<Enter>", cursor_hovering)
     btn.bind("<Leave>", cursor_not_hovering)
     return btn

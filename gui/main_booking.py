@@ -4,6 +4,7 @@ from activity_page import load_activity
 from messages_page import load_messages
 from account_page import load_account
 from welcome_page import load_welcome
+from login_page import cursor_hovering, cursor_not_hovering
 
 # main window
 root = tk.Tk()
@@ -58,6 +59,8 @@ def create_page_button(name, load_function):
         width=12,
         command=lambda: switch_page(name, load_function)
     )
+    button.bind("<Enter>", cursor_hovering)
+    button.bind("<Leave>", cursor_not_hovering)
     button.pack(side="left", expand=True, padx=10)
     navigation_buttons[name] = button
 

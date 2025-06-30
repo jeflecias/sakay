@@ -1,6 +1,8 @@
 from tkinter import Frame, Label, Button
 from PIL import Image, ImageTk
 import os
+from login_page import cursor_hovering, cursor_not_hovering
+
 
 image_refs = []
 image_labels = []
@@ -88,6 +90,8 @@ def resize_and_display_images(center_frame, width):
     # confirm button
     confirm_button = Button(center_frame, text="Confirm Selection", font=("Comic Sans MS", 12, "bold"),
                             fg="white", bg="#5E7530", command=confirm_selection)
+    confirm_button.bind("<Enter>", cursor_hovering)
+    confirm_button.bind("<Leave>", cursor_not_hovering)
     confirm_button.pack(pady=20)
 
 # home page for sakay app
