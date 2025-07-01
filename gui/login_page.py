@@ -1,9 +1,9 @@
 # tk gamitin nyo batas na yan wag kayo mag * pag nag * sasapakin ko -jeflecias
 import tkinter as tk
 from tkinter import messagebox
-from register_page import open_register
+from passenger_window.register_page import open_register
+from passenger_window.main_booking import open_passenger
 from utils import cursor_hovering, cursor_not_hovering
-from main_booking import open_passenger
 import requests
 
 # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you

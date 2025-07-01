@@ -1,9 +1,9 @@
 import tkinter as tk
-from home_page import load_home
-from activity_page import load_activity
-from messages_page import load_messages
-from account_page import load_account
-from welcome_page import load_welcome
+from passenger_window.home_page import load_home
+from passenger_window.activity_page import load_activity
+from passenger_window.messages_page import load_messages
+from passenger_window.account_page import load_account
+from passenger_window.welcome_page import load_welcome
 from utils import cursor_hovering, cursor_not_hovering
 
 def open_passenger(parent):
