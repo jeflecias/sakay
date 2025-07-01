@@ -1,4 +1,5 @@
-from tkinter import Frame, Label, Entry, Button, StringVar
+from tkinter import Frame, Label, Entry, Button
+from passenger_window.ride_status import load_ride_status
 
 def load_home(frame):
     for widget in frame.winfo_children():
@@ -7,30 +8,15 @@ def load_home(frame):
     center_frame = Frame(frame)
     center_frame.place(relx=0.5, rely=0.5, anchor="center")
 
-    Label(center_frame, text="Passenger Home").pack(pady=10)
+    # pickup loc
+    Label(center_frame, text="Pickup Location").pack(pady=(10, 0))
+    pickup_entry = Entry(center_frame)
+    pickup_entry.pack(pady=(0, 10))
 
-    # Pickup location
-    Label(center_frame, text="Pickup Location:").pack()
-    pickup_var = StringVar()
-    Entry(center_frame, textvariable=pickup_var).pack(pady=5)
+    # to where
+    Label(center_frame, text="Destination").pack()
+    destination_entry = Entry(center_frame)
+    destination_entry.pack(pady=(0, 10))
 
-    # Destination
-    Label(center_frame, text="Destination:").pack()
-    destination_var = StringVar()
-    Entry(center_frame, textvariable=destination_var).pack(pady=5)
-
-    # Ride Status
-    ride_status = StringVar(value="Ride status will appear here.")
-
-    def request_ride():
-        pickup = pickup_var.get().strip()
-        destination = destination_var.get().strip()
-        if not pickup or not destination:
-            ride_status.set("Please enter both pickup and destination.")
-        else:
-            # Simulate searching
-            ride_status.set("Searching for a driver...")
-
-    Button(center_frame, text="Request Ride", command=request_ride).pack(pady=10)
-
-    Label(center_frame, textvariable=ride_status).pack(pady=(20, 5))
+    # request ride button goes to ridestatus
+    Button(center_frame, text="Request Ride", command=lambda: load_ride_status(frame)).pack(pady=10)
