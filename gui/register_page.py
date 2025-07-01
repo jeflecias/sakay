@@ -1,20 +1,8 @@
 # tk gamitin nyo batas na yan wag kayo mag * pag nag * sasapakin ko -jeflecias
 import tkinter as tk
 from tkinter import messagebox
+from utils import cursor_hovering, cursor_not_hovering
 import requests
-
-def cursor_hovering(e):
-    e.widget['background'] = '#e2eb3d'  # shiny effect
-    e.widget['fg'] = 'black'
-    e.widget['relief'] = 'raised'
-    e.widget['bd'] = '3'
-
-
-def cursor_not_hovering(e):
-    e.widget['bg'] = '#D2B48C' #default na itsura nong button
-    e.widget['fg'] = '#643602'
-    e.widget['relief'] = 'flat'
-    e.widget['bd'] = '1'
 
 def open_register(parent, go_back):
     # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
@@ -43,7 +31,7 @@ def open_register(parent, go_back):
 
         try:
             # mismong $POST
-            response = requests.post("https://6653-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/register.php", data={
+            response = requests.post("https://cf4c-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/register.php", data={
                 "username": username,
                 "email": email,
                 "password": password,

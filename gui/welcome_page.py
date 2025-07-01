@@ -21,14 +21,23 @@ def load_welcome(frame):
 
     # update font size based on frame
     def update_fonts(event=None):
-        width = frame.winfo_width()
-        main_size = max(int(width * 0.05), 12)
-        sub_size = max(int(width * 0.03), 10)
-        small_size = max(int(width * 0.02), 8)
-        
-        label_1.config(font=("Comic Sans MS", main_size, "bold", "italic"))
-        label_2.config(font=("Comic Sans MS", sub_size, "bold"))
-        label_3.config(font=("Comic Sans MS", small_size))
+        try:
+            # wag i update kapag nasira na yong widget
+            # andaming error sa terminal
+            for label in (label_1, label_2, label_3):
+                if not label.winfo_exists():
+                    return
+                
+            width = frame.winfo_width()
+            main_size = max(int(width * 0.05), 12)
+            sub_size = max(int(width * 0.03), 10)
+            small_size = max(int(width * 0.02), 8)
+            
+            label_1.config(font=("Comic Sans MS", main_size, "bold", "italic"))
+            label_2.config(font=("Comic Sans MS", sub_size, "bold"))
+            label_3.config(font=("Comic Sans MS", small_size))
+        except:
+            pass
 
     update_fonts() # initial call to set fonts
     frame.bind("<Configure>", update_fonts) # bind to resize

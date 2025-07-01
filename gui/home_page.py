@@ -3,7 +3,6 @@ from PIL import Image, ImageTk
 import os
 from utils import cursor_hovering, cursor_not_hovering
 
-
 image_refs = []
 image_labels = []
 selected_vehicle = {"name": None}
@@ -109,9 +108,15 @@ def load_home(frame):
     resize_and_display_images(center_frame, width)
 
     # resize when app is adjusted
+    # error checking as well, hndi ako sure if eto yong mismong problema
     def on_resize(event):
-        for widget in center_frame.winfo_children():
-            widget.destroy()
-        resize_and_display_images(center_frame, event.width)
+        try:
+            if not center_frame.winfo_exists():
+                return
+            for widget in center_frame.winfo_children():
+                widget.destroy()
+            resize_and_display_images(center_frame, event.width)
+        except:
+            pass
 
     frame.bind("<Configure>", on_resize) # bind to resize

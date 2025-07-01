@@ -3,6 +3,7 @@ import tkinter as tk
 from tkinter import messagebox
 from register_page import open_register
 from utils import cursor_hovering, cursor_not_hovering
+from main_booking import open_passenger
 import requests
 
 # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
@@ -27,8 +28,14 @@ def login():
         messagebox.showerror("Error", "enter all fields")
         return
     
+    # local testing for non-server
+    if username == "guestp" and password == "123":
+        passenger_frame = open_passenger(window)
+        login_frame.destroy()
+        return
+
     try:
-        response = requests.post("https://6653-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/login.php", data={
+        response = requests.post("https://cf4c-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/login.php", data={
             "username": username,
             "password": password
         })
@@ -41,17 +48,22 @@ def login():
             # pagkatapos ma login, mabubuksan na yong main app, lalagay ko skelly dito later
             
             if data["is_passenger"]:
-                messagebox.showinfo("passenger,passenger")
+                passenger_frame = open_passenger(window)
+                login_frame.destroy()
+
             elif data["is_driver"]:
                 messagebox.showinfo("driver","driver")
+
             else:
                 messagebox.showinfo("Role","No role assigned to this user!")
 
         else:
             messagebox.showerror("Login", data["message"])
 
-    except:
-        messagebox.showerror("Connection Error", "could not connect")
+    except Exception as e:
+        print(f"[ERROR] Login failed: {e}")
+        messagebox.showerror("Connection Error", f"could not connect:\n{e}")
+
     
 
 
@@ -90,7 +102,7 @@ Register_Button = create_button(login_frame, text="No account? Register", comman
 Register_Button.pack(pady=10)
 register_frame = open_register(window, lambda: switch_frame(login_frame))
 
-# main guard
+# main guard, for debugging
 if __name__ == "__main__":
     for frame in (login_frame, register_frame):
         frame.place(relwidth=1, relheight=1)
