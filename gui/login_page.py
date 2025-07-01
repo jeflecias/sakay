@@ -1,8 +1,9 @@
 # tk gamitin nyo batas na yan wag kayo mag * pag nag * sasapakin ko -jeflecias
 import tkinter as tk
 from tkinter import messagebox
-from passenger_window.register_page import open_register
+from register_page import open_register
 from passenger_window.main_booking import open_passenger
+from driver_window.driver_window import open_driver
 from utils import cursor_hovering, cursor_not_hovering
 import requests
 
@@ -29,10 +30,15 @@ def login():
         return
     
     # local testing for non-server
-    if username == "guestp" and password == "123":
-        passenger_frame = open_passenger(window)
-        login_frame.destroy()
-        return
+    if password == "123":
+        if username == "guestp":
+            fin_frame = open_passenger(window)
+            login_frame.destroy()
+            return
+        elif username == "guestd":
+            fin_frame = open_driver(window)
+            login_frame.destroy()
+            return
 
     try:
         response = requests.post("https://cf4c-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/login.php", data={
@@ -48,11 +54,12 @@ def login():
             # pagkatapos ma login, mabubuksan na yong main app, lalagay ko skelly dito later
             
             if data["is_passenger"]:
-                passenger_frame = open_passenger(window)
+                fin_frame = open_passenger(window)
                 login_frame.destroy()
 
             elif data["is_driver"]:
-                messagebox.showinfo("driver","driver")
+                fin_frame = open_passenger(window)
+                login_frame.destroy()
 
             else:
                 messagebox.showinfo("Role","No role assigned to this user!")
@@ -109,4 +116,3 @@ if __name__ == "__main__":
 
     login_frame.tkraise()
     window.mainloop()
-

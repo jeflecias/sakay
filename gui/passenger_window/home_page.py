@@ -1,6 +1,8 @@
 from tkinter import Frame, Label, Button
 from PIL import Image, ImageTk
 import os
+import sys, os
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
 from utils import cursor_hovering, cursor_not_hovering
 
 image_refs = []

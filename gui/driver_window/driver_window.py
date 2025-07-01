@@ -1,21 +1,21 @@
 import tkinter as tk
-from passenger_window.home_page import load_home
-from passenger_window.activity_page import load_activity
-from passenger_window.messages_page import load_messages
-from passenger_window.account_page import load_account
-from passenger_window.welcome_page import load_welcome
+from driver_window.drvhome_page import load_home
+from driver_window.drvactivity_page import load_activity
+from driver_window.drvmessages_page import load_messages
+from driver_window.drvaccount_page import load_account
+from driver_window.drvwelcome_page import load_welcome
 from utils import cursor_hovering, cursor_not_hovering
 
-def open_passenger(parent):
-    passenger_frame = tk.Frame(parent, bg="#D2B48C")
-    passenger_frame.place(relwidth=1, relheight=1)
+def open_driver(parent):
+    driver_frame = tk.Frame(parent, bg="#D2B48C")
+    driver_frame.place(relwidth=1, relheight=1)
 
     # main content area
-    content_frame = tk.Frame(passenger_frame, bg="#D2B48C")
+    content_frame = tk.Frame(driver_frame, bg="#D2B48C")
     content_frame.pack(expand=True, fill="both")
 
     # higlight when clicked
-    clicked_button = tk.Frame(passenger_frame, bg="#A1866F", bd=2, relief="ridge")
+    clicked_button = tk.Frame(driver_frame, bg="#A1866F", bd=2, relief="ridge")
     clicked_button.pack(side="bottom", fill="x", pady=10)
 
     # button frame
@@ -72,4 +72,4 @@ def open_passenger(parent):
     load_welcome(content_frame)
 
     # for future use
-    return passenger_frame
+    return driver_frame
