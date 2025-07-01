@@ -4,7 +4,10 @@ from activity_page import load_activity
 from messages_page import load_messages
 from account_page import load_account
 from welcome_page import load_welcome
-from login_page import cursor_hovering, cursor_not_hovering
+from utils import cursor_hovering, cursor_not_hovering
+
+print(__file__)
+
 
 # main window
 root = tk.Tk()

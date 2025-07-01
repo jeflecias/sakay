@@ -1,7 +1,7 @@
 from tkinter import Frame, Label, Button
 from PIL import Image, ImageTk
 import os
-from login_page import cursor_hovering, cursor_not_hovering
+from utils import cursor_hovering, cursor_not_hovering
 
 
 image_refs = []

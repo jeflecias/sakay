@@ -2,6 +2,7 @@
 import tkinter as tk
 from tkinter import messagebox
 from register_page import open_register
+from utils import cursor_hovering, cursor_not_hovering
 import requests
 
 # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
@@ -52,17 +53,7 @@ def login():
     except:
         messagebox.showerror("Connection Error", "could not connect")
     
-def cursor_hovering(e):
-    e.widget['background'] = '#e2eb3d'  # shiny effect
-    e.widget['fg'] = 'black'
-    e.widget['relief'] = 'raised'
-    e.widget['bd'] = '3'
 
-def cursor_not_hovering(e):
-    e.widget['bg'] = '#D2B48C' #default na itsura nong button
-    e.widget['fg'] = '#643602'
-    e.widget['relief'] = 'flat'
-    e.widget['bd'] = '1'
 
 #helper function angkalat kse eh grr
 def create_label(parent, text):
@@ -99,8 +90,11 @@ Register_Button = create_button(login_frame, text="No account? Register", comman
 Register_Button.pack(pady=10)
 register_frame = open_register(window, lambda: switch_frame(login_frame))
 
-for frame in (login_frame, register_frame):
-    frame.place(relwidth=1, relheight=1)
+# main guard
+if __name__ == "__main__":
+    for frame in (login_frame, register_frame):
+        frame.place(relwidth=1, relheight=1)
 
-login_frame.tkraise()
-window.mainloop()
+    login_frame.tkraise()
+    window.mainloop()
+
