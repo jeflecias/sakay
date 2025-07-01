@@ -10,7 +10,9 @@ window = tk.Tk()
 window.config(background='#D2B48C')
 window.title("login skelly page")
 window.geometry("1280x720")
+login_frame = tk.Frame(window, bg='#D2B48C')
 
+# switch to regis
 def switch_frame(target):
     target.tkraise()
 
@@ -50,13 +52,11 @@ def login():
     except:
         messagebox.showerror("Connection Error", "could not connect")
     
-
 def cursor_hovering(e):
     e.widget['background'] = '#e2eb3d'  # shiny effect
     e.widget['fg'] = 'black'
     e.widget['relief'] = 'raised'
     e.widget['bd'] = '3'
-
 
 def cursor_not_hovering(e):
     e.widget['bg'] = '#D2B48C' #default na itsura nong button
@@ -79,31 +79,28 @@ def create_button(parent, text, command):
     return btn
 
 # username entry
-create_label(window, "Username").pack(pady=(10, 0))
-username_Label = tk.Entry(window)
+create_label((login_frame), "Username").pack(pady=(10, 0))
+username_Label = tk.Entry(login_frame)
 
-username_entry = tk.Entry(window)
+username_entry = tk.Entry(login_frame)
 username_entry.pack()
 
 # password entry
-create_label(window, text="Password").pack(pady=(10,0))
-password_Label = tk.Entry(window)
-
-password_entry = tk.Entry(window)
+create_label(login_frame, text="Password").pack(pady=(10,0))
+password_Label = tk.Entry(login_frame)
+password_entry = tk.Entry(login_frame)
 password_entry.pack()
 
 #gawin kolang sila variable para ma call ko ahhh
-Login_button = create_button(window, text="Login", command=login)
+Login_button = create_button(login_frame, text="Login", command=login)
 Login_button.pack(pady=10)
 
-Register_Button = create_button(window, text="No account? Register", command=lambda: switch_frame(register_frame))
+Register_Button = create_button(login_frame, text="No account? Register", command=lambda: switch_frame(register_frame))
 Register_Button.pack(pady=10)
+register_frame = open_register(window, lambda: switch_frame(login_frame))
 
-register_frame = open_register(window, lambda: switch_frame(window))
-
-for frame in (window, register_frame):
+for frame in (login_frame, register_frame):
     frame.place(relwidth=1, relheight=1)
 
-
-window.tkraise()
+login_frame.tkraise()
 window.mainloop()

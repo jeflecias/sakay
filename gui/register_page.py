@@ -3,7 +3,6 @@ import tkinter as tk
 from tkinter import messagebox
 import requests
 
-
 def cursor_hovering(e):
     e.widget['background'] = '#e2eb3d'  # shiny effect
     e.widget['fg'] = 'black'
@@ -95,7 +94,6 @@ def open_register(parent, go_back):
     back_button.bind("<Enter>", cursor_hovering)
     back_button.bind("<Leave>", cursor_not_hovering)
     back_button.pack()
-
 
     return window
 
