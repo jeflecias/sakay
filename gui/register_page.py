@@ -17,12 +17,9 @@ def cursor_not_hovering(e):
     e.widget['relief'] = 'flat'
     e.widget['bd'] = '1'
 
-def open_register():
+def open_register(parent, go_back):
     # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
-    window = tk.Toplevel()
-    window.title("register skelly page")
-    window.config(background='#D2B48C')
-    window.geometry("500x500")
+    window = tk.Frame(parent, bg='#D2B48C')
 
     # register function
     def register():
@@ -92,4 +89,13 @@ def open_register():
     button.bind("<Enter>", cursor_hovering)
     button.bind("<Leave>", cursor_not_hovering)
     button.pack(pady=15)
+
+    # back to login button
+    back_button = tk.Button(window, text="Back to Login", command=go_back, bg='#D2B48C', fg='#643602', font=('Comic Sans MS',9))
+    back_button.bind("<Enter>", cursor_hovering)
+    back_button.bind("<Leave>", cursor_not_hovering)
+    back_button.pack()
+
+
+    return window
 

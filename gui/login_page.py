@@ -9,7 +9,11 @@ import requests
 window = tk.Tk()
 window.config(background='#D2B48C')
 window.title("login skelly page")
-window.geometry("500x500")
+window.geometry("1280x720")
+
+def switch_frame(target):
+    target.tkraise()
+
 # dito kayo maglagay ng funcs
 def login():
     username = username_entry.get().strip()
@@ -92,7 +96,14 @@ password_entry.pack()
 Login_button = create_button(window, text="Login", command=login)
 Login_button.pack(pady=10)
 
-Register_Button = create_button(window, text="No account? Register", command=open_register)
+Register_Button = create_button(window, text="No account? Register", command=lambda: switch_frame(register_frame))
 Register_Button.pack(pady=10)
 
+register_frame = open_register(window, lambda: switch_frame(window))
+
+for frame in (window, register_frame):
+    frame.place(relwidth=1, relheight=1)
+
+
+window.tkraise()
 window.mainloop()
