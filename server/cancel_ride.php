@@ -7,5 +7,6 @@ $ride_id = $_POST['ride_id'];
 $stmt = $pdo->prepare("UPDATE ride_requests SET status = 'cancelled' WHERE id = ?");
 $stmt->execute([$ride_id]);
 
-echo json_encode(["success" => true]);
+// setting to status is better i think
+echo json_encode(["status" => "cancelled"]);
 ?>
