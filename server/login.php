@@ -24,6 +24,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if ($user && password_verify($password, $user["password_hash"])) {
             echo json_encode([
         "status" => "success",
+        "user_id" => $user["id"], // for later
         "message" => "Login successful!",
         "is_passenger" => (bool) $user["is_passenger"],
         "is_driver" => (bool) $user["is_driver"]

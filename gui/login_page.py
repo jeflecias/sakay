@@ -51,16 +51,17 @@ def login():
         data = response.json()
 
         if data["status"] == "success":
+            user_id = data["user_id"] # for later
             messagebox.showinfo("Login", data["message"])
             # TO DO
             # pagkatapos ma login, mabubuksan na yong main app, lalagay ko skelly dito later
             
             if data["is_passenger"]:
-                fin_frame = open_passenger(window)
+                fin_frame = open_passenger(window, user_id)
                 login_frame.destroy()
 
             elif data["is_driver"]:
-                fin_frame = open_passenger(window)
+                fin_frame = open_driver(window, user_id)
                 login_frame.destroy()
 
             else:

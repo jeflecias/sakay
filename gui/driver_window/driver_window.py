@@ -6,7 +6,7 @@ from driver_window.drvaccount_page import load_account
 from driver_window.drvwelcome_page import load_welcome
 from utils import cursor_hovering, cursor_not_hovering
 
-def open_driver(parent):
+def open_driver(parent, uid):
     driver_frame = tk.Frame(parent, bg="#D2B48C")
     driver_frame.place(relwidth=1, relheight=1)
 
@@ -63,10 +63,11 @@ def open_driver(parent):
         navigation_buttons[name] = button
 
     # create page buttons
-    create_page_button("Home", load_home)
-    create_page_button("Activity", load_activity)
-    create_page_button("Messages", load_messages)
-    create_page_button("Account", load_account)
+    create_page_button("Home", lambda f: load_home(f, uid))
+    create_page_button("Activity", lambda f: load_activity(f, uid))
+    create_page_button("Messages", lambda f: load_messages(f, uid))
+    create_page_button("Account", lambda f: load_account(f, uid))
+
 
     # load welcome page on start (without highlight)
     load_welcome(content_frame)

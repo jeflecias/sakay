@@ -1,7 +1,7 @@
 from tkinter import Frame, Label, Button
 
 # account page for the sakay app
-def load_account(frame, user_name="Passenger"):
+def load_account(frame, uid, user_name="Passenger"):
     for widget in frame.winfo_children():
         widget.destroy()
 
