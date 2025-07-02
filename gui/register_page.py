@@ -4,6 +4,8 @@ from tkinter import messagebox
 from utils import cursor_hovering, cursor_not_hovering
 import requests
 
+connect_url = "url"
+
 def open_register(parent, go_back):
     # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
     window = tk.Frame(parent, bg='#D2B48C')
@@ -31,7 +33,7 @@ def open_register(parent, go_back):
 
         try:
             # mismong $POST
-            response = requests.post("https://cf4c-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/register.php", data={
+            response = requests.post(f"{connect_url}/sakay/register.php", data={
                 "username": username,
                 "email": email,
                 "password": password,

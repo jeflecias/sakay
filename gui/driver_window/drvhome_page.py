@@ -1,7 +1,11 @@
 from tkinter import Frame, Label, Button, Entry, messagebox
 from driver_window.drvstatus_page import load_driver_status
+import requests
+
+# skeleton pa edit nlng if ano gusto nyo layout neto ang importante lang na nilagay ko is yong funcs
 
 selected = {"vehicle": None}
+connect_url= "http://your-ngrok-url.ngrok-free.app"
 
 def load_home(frame):
     for widget in frame.winfo_children():
@@ -40,6 +44,30 @@ def load_home(frame):
         if not vehicle:
             messagebox.showerror("Missing Info", "Please select a vehicle.")
             return
+        
+        def go_online():
+            location = location_entry.get().strip()
+            vehicle = selected["vehicle"]
+
+            if not location:
+                messagebox.showerror("Missing Info", "Please enter your location.")
+                return
+            if not vehicle:
+                messagebox.showerror("Missing Info", "Please select a vehicle.")
+                return
+            
+            # read json
+            try:
+                res = requests.post(f"{connect_url}/go_online.php", data={
+                    "location": location,
+                    "vehicle": vehicle
+                })
+                if res.text.strip().lower() != "success":
+                    messagebox.showerror("Error", res.text)
+                    return
+            except Exception as e:
+                messagebox.showerror("Network Error", str(e))
+                return
 
         # Load status page
         def back_to_home():

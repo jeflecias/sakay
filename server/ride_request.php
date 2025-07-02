@@ -14,6 +14,7 @@ if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $stmt = $pdo->prepare("INSERT INTO ride_requests (passenger_id, pickup, destination, status) VALUES (?, ?, ?, 'waiting')");
     $stmt->execute([$passenger_id, $pickup, $destination]);
 
+    // returns to mainapp as json
     echo json_encode(["success" => true, "message" => "Ride requested"]);
 }
 ?>

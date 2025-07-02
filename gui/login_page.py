@@ -7,6 +7,8 @@ from driver_window.driver_window import open_driver
 from utils import cursor_hovering, cursor_not_hovering
 import requests
 
+connect_url = "https://cf4c-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app"
+
 # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
 # !!!!!!!!!!!!!!!! mga front end pagandahin nyo nlng to !!!!!!!!!!!!!!!!!!
 window = tk.Tk()
@@ -41,7 +43,7 @@ def login():
             return
 
     try:
-        response = requests.post("https://cf4c-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/login.php", data={
+        response = requests.post(f"{connect_url}/sakay/login.php", data={
             "username": username,
             "password": password
         })
