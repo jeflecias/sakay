@@ -6,7 +6,7 @@ from driver_window.drvstatus_page import load_driver_status
 import threading
 import time
 
-API_URL = "https://873b-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app" 
+API_URL = "https://7938-112-200-227-68.ngrok-free.app" 
 GOOGLE_MAPS_API_KEY = "AIzaSyBQ2_ZV6KF2HQKy8qoewGXBJAcmJf__vSg"  
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 
@@ -33,17 +33,14 @@ def load_driver_home(frame, driver_id):
     for vehicle in ["UFO", "Tank", "Space Shuttle", "Jet Fighter"]:
         Button(top_frame, text=vehicle, width=20, command=lambda v=vehicle: select_vehicle(v)).pack(pady=2)
 
-    # Map Widget
     map_widget = tkintermapview.TkinterMapView(frame, width=800, height=400, corner_radius=0)
     map_widget.pack(pady=10, fill="both", expand=True)
     map_widget.set_position(11.5, 122.5)
     map_widget.set_zoom(5)
 
-    # Confirm button (disabled at first)
     confirm_button = Button(top_frame, text="Confirm Go Online", state="disabled")
     confirm_button.pack(pady=10)
 
-    # Load location and show on map
     def show_location():
         location = location_entry.get().strip()
         vehicle = selected["vehicle"]
@@ -67,12 +64,12 @@ def load_driver_home(frame, driver_id):
             map_widget.delete_all_marker()
             map_widget.set_marker(lat, lng, text="Your Location")
 
-            confirm_button.config(state="normal")  # Enable confirmation
+            confirm_button.config(state="normal")  
 
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
-    # Confirm go online
+    # backend stuff go online then send to table 
     def go_online():
         location = location_data["location"]
         vehicle = selected["vehicle"]
@@ -99,5 +96,5 @@ def load_driver_home(frame, driver_id):
 
     confirm_button.config(command=go_online)
 
-    # Search/Preview location button
+
     Button(top_frame, text="Show My Location on Map", command=show_location).pack(pady=5)

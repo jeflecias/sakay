@@ -3,7 +3,7 @@ import requests
 import time
 import threading
 
-API_URL = "https://873b-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app"
+API_URL = "https://7938-112-200-227-68.ngrok-free.app"
 
 def load_driver_status(frame, driver_id, location, vehicle, back_callback):
     import driver_window.drvloc_to_pass

@@ -61,12 +61,15 @@ def load_home(frame, uid):
         }
 
         try:
-            response = requests.post("https://873b-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app/sakay/request_ride.php", data=payload)
+            response = requests.post("https://7938-112-200-227-68.ngrok-free.app/sakay/request_ride.php", data=payload)
             data = response.json()
 
             if data.get("success"):
+                rid = data.get("ride_request_id")
+                print("RID ISSSSSSSSSSS",rid)
+                
                 messagebox.showinfo("Success", "Ride requested successfully!")
-                load_ride_status(frame, uid)
+                load_ride_status(frame, uid, rid)
             else:
                 messagebox.showerror("Error", data.get("message", "Request failed"))
         except Exception as e:
