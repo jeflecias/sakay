@@ -18,7 +18,7 @@ try {
         exit;
     }
     
-    // Check for matches where driver has arrived for the specific ride
+    // check for matches where driver has arrived for the specific ride
     $stmt = $pdo->prepare("
         SELECT id, ride_request_id, driver_id, driver_progress, status 
         FROM matches 
@@ -30,21 +30,30 @@ try {
     
     // check if any other driver
     $hasArrivedDriver = false;
+    $driverDetails = [];
+    
     foreach ($matches as $match) {
+        $driverDetails[] = [
+            'driver_id' => $match['driver_id'],
+            'progress' => $match['driver_progress'],
+            'status' => $match['status']
+        ];
+        
         if ($match['driver_progress'] === 'arrived') {
             $hasArrivedDriver = true;
             break;
         }
     }
     
-    // added this stuff for some error debugs i dont KNOW WHAT IS HAPPENING ANONG NGYAYARE
+    // some debugs again something is going wrong again
     echo json_encode([
         'success' => true,
         'driver_arrived' => $hasArrivedDriver,
         'message' => $hasArrivedDriver ? 'Driver has arrived' : 'Driver not yet arrived',
         'ride_id' => $ride_id,
         'total_matches' => count($matches),
-
+        'driver_details' => $driverDetails, 
+        'timestamp' => date('Y-m-d H:i:s')
     ]);
     
 } catch (Exception $e) {
