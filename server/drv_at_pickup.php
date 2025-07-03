@@ -1,10 +1,10 @@
 <?php
-include 'db.php';
+require 'db.php';
 
 $driver_id = $_POST['driver_id'];
 $ride_request_id = $_POST['ride_request_id'];
 
-// Update driver progress to 'arrived'
+// Update driver to arrived
 $query = "UPDATE matches 
           SET driver_progress = 'arrived' 
           WHERE driver_id = ? AND ride_request_id = ?";

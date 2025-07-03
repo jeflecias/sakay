@@ -9,7 +9,6 @@ import requests
 
 connect_url = "https://7938-112-200-227-68.ngrok-free.app"
 
-
 # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you
 # !!!!!!!!!!!!!!!! mga front end pagandahin nyo nlng to !!!!!!!!!!!!!!!!!!
 window = tk.Tk()

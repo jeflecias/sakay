@@ -30,7 +30,7 @@ def load_ride_status(frame, uid, rid):
     try:
         map_widget = tkintermapview.TkinterMapView(frame, width=800, height=400, corner_radius=0)
         map_widget.pack(pady=10, fill="both", expand=True)
-        map_widget.set_position(11.5, 122.5)  # Philippines center
+        map_widget.set_position(11.5, 122.5) 
         map_widget.set_zoom(5)
     except:
         map_widget = None
@@ -102,20 +102,55 @@ def load_ride_status(frame, uid, rid):
                 if response.status_code == 200:
                     data = response.json()
                     if data.get('success'):
-                        # Show popup only once
+                        # show it only once backthen it was popping up multipletimes idk
                         if not driver_found_popup_shown["shown"]:
                             messagebox.showinfo("Driver Found!", "A driver has been found and is heading to your location!")
                             driver_found_popup_shown["shown"] = True
                         
-                        # Update map
+                        # update
                         update_map_with_coords(
                             data.get('pickup_coords', {}),
                             data.get('destination_coords', {}),
                             data.get('driver_current_coords', {})
                         )
+                        
+                        # checker like the other one
+                        check_driver_arrival()
             except:
                 pass
             time.sleep(5)
+    
+    def check_driver_arrival():
+        try:
+            response = requests.get(f"{API_URL}/sakay/check_driver_arrived.php?ride_id={rid}", timeout=10)
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('success') and data.get('driver_arrived'):
+                    # driver has arrived make it pressable now
+                    ride_button.config(state="normal", bg="green", command=start_ride)
+                    status_label.config(text="Driver has arrived! You can now start the ride.")
+        except:
+            pass
+    
+    def start_ride():
+        try:
+            response = requests.post(f"{API_URL}/sakay/update_passenger_onboard.php", data={
+                "user_id": uid,
+                "ride_id": rid
+            }, timeout=10)
+            
+            if response.status_code == 200:
+                data = response.json()
+                if data.get('success'):
+                    status_label.config(text="Ride started! You are now onboard.")
+                    ride_button.config(state="disabled", bg="gray", text="Ride In Progress")
+                    messagebox.showinfo("Ride Started", "Your ride has started! Enjoy your trip.")
+                else:
+                    messagebox.showerror("Error", data.get('message', 'Failed to start ride'))
+            else:
+                messagebox.showerror("Error", "Failed to connect to server")
+        except Exception as e:
+            messagebox.showerror("Error", f"Failed to start ride: {str(e)}")
     
     def cancel_ride():
         ping_control["should_ping"] = False
@@ -136,9 +171,12 @@ def load_ride_status(frame, uid, rid):
                 widget.destroy()
             Label(frame, text="Ride cancelled", font=("Arial", 14)).pack(pady=20)
     
-    # Start background threads
+    # threads for pinging and checking coords type sh
     threading.Thread(target=ping_passenger, daemon=True).start()
     threading.Thread(target=check_ride_coords, daemon=True).start()
     
-    # Cancel button
+    # disabled Ride button (will be enabled when driver arrives)
+    ride_button = Button(frame, text="Ride", state="disabled", bg="gray", fg="white")
+    ride_button.pack(pady=5)
+    
     Button(frame, text="Cancel Ride", command=cancel_ride, bg="red", fg="white").pack(pady=10)
