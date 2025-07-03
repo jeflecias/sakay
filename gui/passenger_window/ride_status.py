@@ -34,7 +34,8 @@ def load_ride_status(frame, uid):
     status_label.pack(pady=20)
     map_widget = tkintermapview.TkinterMapView(frame, width=800, height=400, corner_radius=0)
     map_widget.pack(pady=10, fill="both", expand=True)
-    map_widget.set_zoom(12)
+    map_widget.set_position(11.5, 122.5)  # Rough geographic center of the Philippines
+    map_widget.set_zoom(5)
 
     def cancel_ride():
         ping_control["should_ping"] = False

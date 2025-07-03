@@ -27,19 +27,18 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
 
     start_driver_ping(driver_id, ping_control)
 
-    # Backend logic: Check for matches every 5 seconds
+    # backend stuff check for match in the match queue must match driver id
     def check_matches():
         while ping_control["should_ping"]:
             try:
-                # Only check if no popup is currently active
+                # check if no popup is active
                 if not popup_active["active"]:
                     response = requests.get(f"{API_URL}/sakay/driver_checkreq.php?driver_id={driver_id}")
                     data = response.json()
                     
                     if 'pending_matches' in data and data['pending_matches']:
-                        # Show match popup
-                        match = data['pending_matches'][0]  # Get first pending match
-                        popup_active["active"] = True  # Set flag before showing popup
+                        match = data['pending_matches'][0]  
+                        popup_active["active"] = True  
                         show_match_popup(match, driver_id, ping_control, popup_active)
                         
             except Exception as e:
@@ -50,9 +49,8 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
         popup = Toplevel()
         popup.title("New Ride Request")
         popup.geometry("400x300")
-        popup.grab_set()  # Make popup modal
+        popup.grab_set() 
         
-        # Reset flag when popup is closed
         def on_popup_close():
             popup_active["active"] = False
             popup.destroy()
@@ -65,6 +63,7 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
         Label(popup, text=f"Pickup: {match['pickup_lat']}, {match['pickup_lng']}").pack(pady=5)
         Label(popup, text=f"Destination: {match['destination_lat']}, {match['destination_lng']}").pack(pady=5)
         
+        # simple accept match stuff
         def accept_match():
             try:
                 response = requests.post(f"{API_URL}/sakay/driver_checkreq.php", data={
@@ -73,29 +72,55 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
                     "action": "accept"
                 })
                 result = response.json()
+                
                 if result.get('success'):
-                    # Update driver progress to en_route
-                    requests.post(f"{API_URL}/sakay/update_driver_progress.php", data={
+                    progress_response = requests.post(f"{API_URL}/sakay/drvaccept_match.php", data={
                         "driver_id": driver_id, 
                         "match_id": match['id']
                     })
                     
-                    messagebox.showinfo("Success", "Match accepted!")
-                    popup_active["active"] = False
-                    popup.destroy()
-                    
-                    # Stop the ping control since we're moving to a new page
-                    ping_control["should_ping"] = False
-                    
-                    # Load the driver-to-passenger page with match data
-                    driver_window.drvloc_to_pass.load_drvloc_to_pass(
-                        frame=frame,
-                        match_data=match
-                    )
+                    if progress_response.status_code == 200:
+                        progress_result = progress_response.json()
+                        
+                        if progress_result.get('success'):
+                            # update to en route then passenger scans this
+                            messagebox.showinfo("Success", "Match accepted and en route!")
+                            popup_active["active"] = False
+                            popup.destroy()
+                            
+
+                            ping_control["should_ping"] = False
+                            
+                            driver_window.drvloc_to_pass.load_drvloc_to_pass(
+                                frame=frame,
+                                match_data=match
+                            )
+                        else:
+                            # debug stuff it might cause an error again IDK WHY
+                            error_msg = progress_result.get('error', 'Unknown error')
+                            debug_info = progress_result.get('debug', {})
+                            
+                            # more details WHAT IS CAUSING THE PROBLEM
+                            messagebox.showerror("Progress Update Failed", 
+                                f"Match accepted but couldn't start journey:\n\n"
+                                f"Error: {error_msg}\n\n"
+                                f"Debug Info:\n"
+                                f"Match ID: {debug_info.get('current_match', {}).get('id', 'N/A')}\n"
+                                f"Driver Accepted: {debug_info.get('can_update', {}).get('driver_accepted', 'N/A')}\n"
+                                f"Progress is 'not': {debug_info.get('can_update', {}).get('driver_progress_not', 'N/A')}\n"
+                                f"Status is 'ongoing': {debug_info.get('can_update', {}).get('status_ongoing', 'N/A')}"
+                            )
+                    else:
+                        # show error on server
+                        messagebox.showerror("Error", f"Failed to update progress: HTTP {progress_response.status_code}")
+                        
                 else:
-                    messagebox.showerror("Error", result.get('error', 'Unknown error'))
+                    # if match fails
+                    messagebox.showerror("Error", f"Failed to accept match: {result.get('error', 'Unknown error')}")
+                    
             except Exception as e:
-                messagebox.showerror("Error", f"Failed to accept match: {e}")
+                messagebox.showerror("Error", f"Network error: {str(e)}")
+                print(f"Full error: {e}") 
         
         def reject_match():
             try:
@@ -107,9 +132,8 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
                 result = response.json()
                 if result.get('success'):
                     messagebox.showinfo("Success", "Match rejected!")
-                    popup_active["active"] = False  # Reset flag so new matches can be shown
+                    popup_active["active"] = False  
                     popup.destroy()
-                    # The original check_matches loop will continue automatically
                 else:
                     messagebox.showerror("Error", result.get('error', 'Unknown error'))
             except Exception as e:
@@ -118,7 +142,6 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
         Button(popup, text="✓ Accept Ride", command=accept_match, bg="green", fg="white", font=("Arial", 12)).pack(pady=10)
         Button(popup, text="✗ Reject Ride", command=reject_match, bg="red", fg="white", font=("Arial", 12)).pack(pady=5)
 
-    # Start checking for matches
     threading.Thread(target=check_matches, daemon=True).start()
 
     center_frame = Frame(frame)
