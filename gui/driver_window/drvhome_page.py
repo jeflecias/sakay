@@ -6,7 +6,7 @@ from driver_window.drvstatus_page import load_driver_status
 import threading
 import time
 
-API_URL = "https://1ff5-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app" 
+API_URL = "https://873b-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app" 
 GOOGLE_MAPS_API_KEY = "AIzaSyBQ2_ZV6KF2HQKy8qoewGXBJAcmJf__vSg"  
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 
