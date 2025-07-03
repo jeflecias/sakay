@@ -1,5 +1,5 @@
 import tkinter as tk
-from driver_window.drvhome_page import load_home
+from driver_window.drvhome_page import load_driver_home
 from driver_window.drvactivity_page import load_activity
 from driver_window.drvmessages_page import load_messages
 from driver_window.drvaccount_page import load_account
@@ -63,7 +63,7 @@ def open_driver(parent, uid):
         navigation_buttons[name] = button
 
     # create page buttons
-    create_page_button("Home", lambda f: load_home(f, uid))
+    create_page_button("Home", lambda f: load_driver_home(f, uid))
     create_page_button("Activity", lambda f: load_activity(f, uid))
     create_page_button("Messages", lambda f: load_messages(f, uid))
     create_page_button("Account", lambda f: load_account(f, uid))

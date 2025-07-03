@@ -1,6 +1,6 @@
 from tkinter import Frame, Label
 
-def load_messages(frame):
+def load_messages(frame, uid):
     for widget in frame.winfo_children():
         widget.destroy()
 

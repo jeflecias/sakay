@@ -4,16 +4,17 @@
 -- default null = may not be required
 
 CREATE TABLE ride_requests (
-    id INT AUTO_INCREMENT PRIMARY KEY, -- identifier
-    passenger_id INT NOT NULL, -- id of passenger
-    pickup_location VARCHAR(100), -- from
-    destination VARCHAR(100), -- to where
-    vehicle_type VARCHAR(50), -- required for matching
-    status ENUM('pending', 'matched', 'cancelled', 'completed') DEFAULT 'pending', -- simple enum to show
-    matched_driver_id INT DEFAULT NULL, -- its here now
-    requested_at DATETIME DEFAULT CURRENT_TIMESTAMP, -- date
-    FOREIGN KEY (passenger_id) REFERENCES users(id), 
-    FOREIGN KEY (matched_driver_id) REFERENCES users(id) -- reference to users
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT NOT NULL,
+    pickup_lat DOUBLE NOT NULL,
+    pickup_lng DOUBLE NOT NULL,
+    destination_lat DOUBLE NOT NULL,
+    destination_lng DOUBLE NOT NULL,
+    vehicle_type VARCHAR(50) NOT NULL,
+    status ENUM('pending', 'matched', 'completed', 'cancelled') DEFAULT 'pending',
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+
+    FOREIGN KEY (user_id) REFERENCES users(id)
 );
 
 

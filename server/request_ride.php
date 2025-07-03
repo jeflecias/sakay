@@ -1,15 +1,20 @@
 <?php
-require 'db.php';
+require "db.php";
 
-# extract stuff
-$passenger_id = $_POST['passenger_id'];
-$pickup = $_POST['pickup_location'];
-$destination = $_POST['destination'];
-$vehicle = $_POST['vehicle_type'];
+$user_id = $_POST['user_id'];
+$pickup_lat = $_POST['pickup_lat'];
+$pickup_lng = $_POST['pickup_lng'];
+$destination_lat = $_POST['destination_lat'];
+$destination_lng = $_POST['destination_lng'];
+$vehicle = $_POST['vehicle'];
 
-# insert into table for matching later
-$stmt = $pdo->prepare("INSERT INTO ride_requests (passenger_id, pickup_location, destination, vehicle_type) VALUES (?, ?, ?, ?)");
-$stmt->execute([$passenger_id, $pickup, $destination, $vehicle]);
+$stmt = $pdo->prepare("
+    INSERT INTO ride_requests (user_id, pickup_lat, pickup_lng, destination_lat, destination_lng, vehicle_type, status)
+    VALUES (?, ?, ?, ?, ?, ?, 'pending')
+");
+$stmt->execute([
+    $user_id, $pickup_lat, $pickup_lng,
+    $destination_lat, $destination_lng, $vehicle
+]);
 
-echo json_encode(["status" => "requested"]);
-?>
+echo json_encode(["success" => true]);

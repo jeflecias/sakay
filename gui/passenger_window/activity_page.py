@@ -1,6 +1,6 @@
 from tkinter import Frame, Label
 
-def load_activity(frame):
+def load_activity(frame, uid):
     for widget in frame.winfo_children():
         widget.destroy()
 

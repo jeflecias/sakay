@@ -6,7 +6,7 @@ from passenger_window.account_page import load_account
 from passenger_window.welcome_page import load_welcome
 from utils import cursor_hovering, cursor_not_hovering
 
-def open_passenger(parent):
+def open_passenger(parent, uid):
     passenger_frame = tk.Frame(parent, bg="#D2B48C")
     passenger_frame.place(relwidth=1, relheight=1)
 
@@ -55,7 +55,7 @@ def open_passenger(parent):
             bg="#D2B48C",
             relief="flat",
             width=12,
-            command=lambda: switch_page(name, load_function)
+            command=lambda: switch_page(name, lambda f: load_function(f, uid))
         )
         button.bind("<Enter>", cursor_hovering)
         button.bind("<Leave>", cursor_not_hovering)

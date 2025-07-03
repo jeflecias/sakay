@@ -1,54 +1,103 @@
+from tkinter import Frame, Label, Entry, Button, messagebox
+import tkintermapview
 import requests
-from tkinter import Frame, Label, Button, Entry, messagebox
+import googlemaps
 from driver_window.drvstatus_page import load_driver_status
+import threading
+import time
 
-# skeleton edit nyo nalang binura ko mga pics and stuff
+API_URL = "https://1ff5-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app" 
+GOOGLE_MAPS_API_KEY = "AIzaSyBQ2_ZV6KF2HQKy8qoewGXBJAcmJf__vSg"  
+gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 
-selected = {"vehicle": None}
-connect_url = "urlhere"
-
-def load_home(frame, driver_id):
+def load_driver_home(frame, driver_id):
     for widget in frame.winfo_children():
         widget.destroy()
 
-    center_frame = Frame(frame)
-    center_frame.place(relx=0.5, rely=0.5, anchor="center")
+    selected = {"vehicle": None}
+    location_data = {"location": None, "lat": None, "lng": None}
 
-    Label(center_frame, text="Driver Home Page").pack(pady=10)
+    top_frame = Frame(frame)
+    top_frame.pack(pady=10)
 
-    Label(center_frame, text="Enter your location:").pack()
-    location_entry = Entry(center_frame)
-    location_entry.pack(pady=5)
+    Label(top_frame, text="Enter Your Location").pack()
+    location_entry = Entry(top_frame, width=60)
+    location_entry.pack(pady=(0, 10))
 
-    Label(center_frame, text="Select Vehicle").pack(pady=(20, 5))
+    Label(top_frame, text="Select Your Vehicle Type").pack(pady=(10, 5))
 
-    def select_vehicle(vehicle_name):
-        selected["vehicle"] = vehicle_name
+    def select_vehicle(vehicle):
+        selected["vehicle"] = vehicle
+        messagebox.showinfo("Vehicle Selected", f"You selected: {vehicle}")
 
     for vehicle in ["UFO", "Tank", "Space Shuttle", "Jet Fighter"]:
-        Button(center_frame, text=vehicle, command=lambda v=vehicle: select_vehicle(v)).pack(pady=2)
+        Button(top_frame, text=vehicle, width=20, command=lambda v=vehicle: select_vehicle(v)).pack(pady=2)
 
-    def go_online():
+    # Map Widget
+    map_widget = tkintermapview.TkinterMapView(frame, width=800, height=400, corner_radius=0)
+    map_widget.pack(pady=10, fill="both", expand=True)
+    map_widget.set_position(11.5, 122.5)
+    map_widget.set_zoom(5)
+
+    # Confirm button (disabled at first)
+    confirm_button = Button(top_frame, text="Confirm Go Online", state="disabled")
+    confirm_button.pack(pady=10)
+
+    # Load location and show on map
+    def show_location():
         location = location_entry.get().strip()
         vehicle = selected["vehicle"]
 
         if not location or not vehicle:
-            messagebox.showerror("Missing Info", "Enter location and vehicle.")
+            messagebox.showerror("Missing Info", "Please enter your location and select a vehicle.")
             return
 
-        # send to backend WAG NYONG PAPAKAILAMAN TO
         try:
-            response = requests.post(f"{connect_url}/sakay/go_online.php", data={
+            geocode_result = gmaps.geocode(location)
+            if not geocode_result:
+                messagebox.showerror("Error", "Location not found.")
+                return
+
+            lat = geocode_result[0]['geometry']['location']['lat']
+            lng = geocode_result[0]['geometry']['location']['lng']
+            location_data.update({"location": location, "lat": lat, "lng": lng})
+
+            map_widget.set_position(lat, lng)
+            map_widget.set_zoom(14)
+            map_widget.delete_all_marker()
+            map_widget.set_marker(lat, lng, text="Your Location")
+
+            confirm_button.config(state="normal")  # Enable confirmation
+
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    # Confirm go online
+    def go_online():
+        location = location_data["location"]
+        vehicle = selected["vehicle"]
+
+        try:
+            response = requests.post(f"{API_URL}/sakay/driver_online.php", data={
                 "driver_id": driver_id,
-                "location": location,
+                "current_lat": location_data["lat"],
+                "current_lng": location_data["lng"],
                 "vehicle": vehicle
             })
-            res = response.json()
-            if res.get("success"):
-                load_driver_status(frame, driver_id, location, vehicle, lambda: load_home(frame, driver_id))
-            else:
-                messagebox.showerror("Error", res.get("message", "Unknown error"))
-        except Exception as e:
-            messagebox.showerror("Error", f"Server error: {e}")
+            result = response.json()
 
-    Button(center_frame, text="Go Online", command=go_online).pack(pady=20)
+            if result.get("success"):
+                load_driver_status(
+                    frame, driver_id, location, vehicle,
+                    back_callback=lambda: load_driver_home(frame, driver_id)
+                )
+            else:
+                messagebox.showerror("Error", result.get("message", "Could not go online."))
+
+        except Exception as e:
+            messagebox.showerror("Error", str(e))
+
+    confirm_button.config(command=go_online)
+
+    # Search/Preview location button
+    Button(top_frame, text="Show My Location on Map", command=show_location).pack(pady=5)

@@ -1,12 +1,29 @@
 from tkinter import Frame, Label, Button
 import requests
+import time
+import threading
 
-connect_url = "url"
+API_URL = "https://1ff5-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app"
 
-# skeleton pa edit nlng den
-def load_driver_status(frame, driver_id, location, vehicle, back_callback, uid):
+def load_driver_status(frame, driver_id, location, vehicle, back_callback):
     for widget in frame.winfo_children():
         widget.destroy()
+
+    # ping to check if user is still there if not remove from queue
+    ping_control = {"should_ping": True}
+
+    def start_driver_ping(driver_id, control):
+        def ping_loop():
+            while control["should_ping"]:
+                try:
+                    requests.post(f"{API_URL}/sakay/ping_driver.php", data={"driver_id": driver_id})
+                except:
+                    pass
+                time.sleep(10)
+
+        threading.Thread(target=ping_loop, daemon=True).start()
+
+    start_driver_ping(driver_id, ping_control)
 
     center_frame = Frame(frame)
     center_frame.place(relx=0.5, rely=0.5, anchor="center")
@@ -18,24 +35,15 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback, uid):
     match_label = Label(center_frame, text="Searching for a passenger...")
     match_label.pack(pady=5)
 
-    # backend logic DONOT TOUCH
-    def match_passenger():
-        try:
-            response = requests.post(f"{connect_url}/sakay/match_driver.php", data={"driver_id": driver_id}).json()
-            if response.get("matched"):
-                match_label.config(text=f"Matched with Passenger {response['passenger_id']}")
-            else:
-                # added delay to see actual messages/notifs
-                frame.after(3000, match_passenger)
-        except:
-            match_label.config(text="Error checking for match.")
-
-    match_passenger()
-
     def cancel():
+        # stop pinging when cancelled
+        ping_control["should_ping"] = False
+        
         try:
-            requests.post(f"{connect_url}/sakay/go_offline.php", data={"driver_id": driver_id})
-        finally:
-            back_callback()
+            requests.post(f"{API_URL}/sakay/driver_offline.php", data={"driver_id": driver_id})
+        except:
+            pass
+        
+        back_callback()
 
     Button(center_frame, text="Cancel and Go Offline", command=cancel).pack(pady=20)

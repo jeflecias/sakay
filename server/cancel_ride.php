@@ -1,12 +1,21 @@
 <?php
-require 'db.php';
+// simple cancel ride
+require "db.php";
 
-$ride_id = $_POST['ride_id'];
+if (!isset($_POST['uid'])) {
+    echo json_encode(["success" => false, "message" => "Missing user ID"]);
+    exit;
+}
 
-// set to cancelled, can work for either passenger or driver
-$stmt = $pdo->prepare("UPDATE ride_requests SET status = 'cancelled' WHERE id = ?");
-$stmt->execute([$ride_id]);
+$uid = $_POST['uid'];
 
-// setting to status is better i think
-echo json_encode(["status" => "cancelled"]);
+// cancel if ride only if on wait
+$stmt = $pdo->prepare("UPDATE ride_requests SET status = 'cancelled' WHERE user_id = ? AND status = 'waiting'");
+$stmt->execute([$uid]);
+
+if ($stmt->rowCount() > 0) {
+    echo json_encode(["success" => true, "message" => "Ride cancelled"]);
+} else {
+    echo json_encode(["success" => false, "message" => "No active ride to cancel or already matched"]);
+}
 ?>
