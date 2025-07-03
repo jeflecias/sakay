@@ -37,18 +37,6 @@ def load_ride_status(frame, uid):
     map_widget.set_zoom(12)
 
     def cancel_ride():
-        # stop ping when cancelled
         ping_control["should_ping"] = False
-
-        #backend stuff again
-        try:
-            response = requests.post(f"{API_URL}/sakay/cancel_ride.php", data={"uid": uid})
-            result = response.json()
-            if result.get("success"):
-                messagebox.showinfo("Ride Cancelled", "Your ride has been cancelled.")
-                load_home(frame, uid)  # Return to home page
-            else:
-                messagebox.showerror("Error", result.get("message", "Could not cancel the ride."))
-        except Exception as e:
-            messagebox.showerror("Error", f"Could not cancel the ride.\n{str(e)}")
+        load_home(frame, uid)  
     Button(frame, text="Cancel Ride", command=cancel_ride).pack(pady=10)

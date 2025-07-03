@@ -18,7 +18,7 @@ CREATE TABLE matches (
     driver_start_lng DOUBLE NOT NULL,
 
     -- Rdriver progress otw or not
-    driver_progress ENUM('en_route', 'arrived', 'passenger_onboard') DEFAULT 'en_route',
+    driver_progress ENUM('not', 'en_route', 'arrived', 'passenger_onboard') DEFAULT 'not',
     status ENUM('ongoing', 'completed', 'cancelled') DEFAULT 'ongoing',
 
     FOREIGN KEY (ride_request_id) REFERENCES ride_requests(id),
