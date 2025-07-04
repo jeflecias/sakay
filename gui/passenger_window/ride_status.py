@@ -7,7 +7,7 @@ import googlemaps
 import polyline
 import math
 
-API_URL = "https://7938-112-200-227-68.ngrok-free.app" 
+connect_url = "https://5c23-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app" 
 GOOGLE_MAPS_API_KEY = "AIzaSyBQ2_ZV6KF2HQKy8qoewGXBJAcmJf__vSg"
 
 def load_ride_status(frame, uid, rid):
@@ -46,7 +46,7 @@ def load_ride_status(frame, uid, rid):
         while ping_control["should_ping"]:
             try:
                 print(f"Pinging passenger for UID: {uid}, RID: {rid}")
-                response = requests.post(f"{API_URL}/sakay/ping_passenger.php", data={
+                response = requests.post(f"{connect_url}/sakay/ping_passenger.php", data={
                     "user_id": uid,
                     "ride_id": rid
                 }, timeout=10)
@@ -216,7 +216,7 @@ def load_ride_status(frame, uid, rid):
         while ping_control["should_ping"]:
             try:
                 print(f"Checking ride coords for UID: {uid}, RID: {rid}")
-                response = requests.get(f"{API_URL}/sakay/psg_getride.php?user_id={uid}&rid={rid}", timeout=10)
+                response = requests.get(f"{connect_url}/sakay/psg_getride.php?user_id={uid}&rid={rid}", timeout=10)
                 if response.status_code == 200:
                     data = response.json()
                     if data.get('success'):
@@ -234,7 +234,7 @@ def load_ride_status(frame, uid, rid):
         while ping_control["should_ping"]:
             try:
                 print(f"Checking driver arrival for RID: {rid}")
-                response = requests.get(f"{API_URL}/sakay/check_driver_arrived.php?ride_id={rid}", timeout=10)
+                response = requests.get(f"{connect_url}/sakay/check_driver_arrived.php?ride_id={rid}", timeout=10)
                 
                 if response.status_code == 200:
                     data = response.json()
@@ -249,7 +249,7 @@ def load_ride_status(frame, uid, rid):
     def start_ride():
         try:
             print(f"Starting ride for UID: {uid}, RID: {rid}")
-            response = requests.post(f"{API_URL}/sakay/update_passenger_onboard.php", data={
+            response = requests.post(f"{connect_url}/sakay/update_passenger_onboard.php", data={
                 "user_id": uid,
                 "ride_id": rid
             }, timeout=10)
@@ -281,7 +281,7 @@ def load_ride_status(frame, uid, rid):
             map_widget.destroy()
         
         try:
-            requests.post(f"{API_URL}/sakay/cancel_ride.php", data={
+            requests.post(f"{connect_url}/sakay/cancel_ride.php", data={
                 "user_id": uid,
                 "ride_id": rid
             }, timeout=5)
@@ -302,7 +302,7 @@ def load_ride_status(frame, uid, rid):
     # continuously checks if ride is done if so enable button
     def check_ride_completion(ride_id, user_id):
         try:
-            response = requests.get(f"{API_URL}/sakay/check_ride_completion.php?ride_id={ride_id}&user_id={user_id}", timeout=10)
+            response = requests.get(f"{connect_url}/sakay/check_ride_completion.php?ride_id={ride_id}&user_id={user_id}", timeout=10)
             
             if response.status_code == 200:
                 return response.json()
@@ -333,7 +333,7 @@ def load_ride_status(frame, uid, rid):
     def finish_trip():
         try:
             print(f"Finishing trip for UID: {uid}, RID: {rid}") 
-            response = requests.post(f"{API_URL}/sakay/finalize_trip.php", data={
+            response = requests.post(f"{connect_url}/sakay/finalize_trip.php", data={
                 "user_id": uid,
                 "ride_id": rid
             }, timeout=10)

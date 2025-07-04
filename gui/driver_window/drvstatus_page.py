@@ -3,7 +3,7 @@ import requests
 import time
 import threading
 
-API_URL = "https://7938-112-200-227-68.ngrok-free.app"
+connect_url = "https://5c23-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app"
 
 def load_driver_status(frame, driver_id, location, vehicle, back_callback):
     import driver_window.drvloc_to_pass
@@ -18,7 +18,7 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
         def ping_loop():
             while control["should_ping"]:
                 try:
-                    requests.post(f"{API_URL}/sakay/ping_driver.php", data={"driver_id": driver_id})
+                    requests.post(f"{connect_url}/sakay/ping_driver.php", data={"driver_id": driver_id})
                 except:
                     pass
                 time.sleep(10)
@@ -33,7 +33,7 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
             try:
                 # check if no popup is active
                 if not popup_active["active"]:
-                    response = requests.get(f"{API_URL}/sakay/driver_checkreq.php?driver_id={driver_id}")
+                    response = requests.get(f"{connect_url}/sakay/driver_checkreq.php?driver_id={driver_id}")
                     data = response.json()
                     
                     if 'pending_matches' in data and data['pending_matches']:
@@ -66,7 +66,7 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
         # simple accept match stuff
         def accept_match():
             try:
-                response = requests.post(f"{API_URL}/sakay/driver_checkreq.php", data={
+                response = requests.post(f"{connect_url}/sakay/driver_checkreq.php", data={
                     "driver_id": driver_id,
                     "match_id": match['id'],
                     "action": "accept"
@@ -74,7 +74,7 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
                 result = response.json()
                 
                 if result.get('success'):
-                    progress_response = requests.post(f"{API_URL}/sakay/drvaccept_match.php", data={
+                    progress_response = requests.post(f"{connect_url}/sakay/drvaccept_match.php", data={
                         "driver_id": driver_id, 
                         "match_id": match['id']
                     })
@@ -93,7 +93,8 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
                             
                             driver_window.drvloc_to_pass.load_drvloc_to_pass(
                                 frame=frame,
-                                match_data=match
+                                match_data=match,
+                                back_callback=back_callback
                             )
                         else:
                             # debug stuff it might cause an error again IDK WHY
@@ -124,7 +125,7 @@ def load_driver_status(frame, driver_id, location, vehicle, back_callback):
         
         def reject_match():
             try:
-                response = requests.post(f"{API_URL}/sakay/driver_checkreq.php", data={
+                response = requests.post(f"{connect_url}/sakay/driver_checkreq.php", data={
                     "driver_id": driver_id,
                     "match_id": match['id'],
                     "action": "reject"

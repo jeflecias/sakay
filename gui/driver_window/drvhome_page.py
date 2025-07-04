@@ -6,7 +6,7 @@ from driver_window.drvstatus_page import load_driver_status
 import threading
 import time
 
-API_URL = "https://7938-112-200-227-68.ngrok-free.app" 
+connect_url = "https://5c23-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app" 
 GOOGLE_MAPS_API_KEY = "AIzaSyBQ2_ZV6KF2HQKy8qoewGXBJAcmJf__vSg"  
 gmaps = googlemaps.Client(key=GOOGLE_MAPS_API_KEY)
 
@@ -17,29 +17,50 @@ def load_driver_home(frame, driver_id):
     selected = {"vehicle": None}
     location_data = {"location": None, "lat": None, "lng": None}
 
-    top_frame = Frame(frame)
-    top_frame.pack(pady=10)
+    # Create main container with fixed layout
+    main_container = Frame(frame)
+    main_container.pack(fill="both", expand=True, padx=10, pady=10)
 
-    Label(top_frame, text="Enter Your Location").pack()
+    # Top section for controls (fixed height)
+    top_frame = Frame(main_container, bg="#D2B48C")
+    top_frame.pack(fill="x", pady=(0, 10))
+
+    Label(top_frame, text="Enter Your Location", bg="#D2B48C").pack()
     location_entry = Entry(top_frame, width=60)
     location_entry.pack(pady=(0, 10))
 
-    Label(top_frame, text="Select Your Vehicle Type").pack(pady=(10, 5))
+    Label(top_frame, text="Select Your Vehicle Type", bg="#D2B48C").pack(pady=(10, 5))
 
     def select_vehicle(vehicle):
         selected["vehicle"] = vehicle
         messagebox.showinfo("Vehicle Selected", f"You selected: {vehicle}")
 
-    for vehicle in ["UFO", "Tank", "Space Shuttle", "Jet Fighter"]:
-        Button(top_frame, text=vehicle, width=20, command=lambda v=vehicle: select_vehicle(v)).pack(pady=2)
+    # Vehicle buttons in a row
+    vehicle_frame = Frame(top_frame, bg="#D2B48C")
+    vehicle_frame.pack(pady=5)
+    
+    for vehicle in ["motorcycle", "car4", "car6", "tank"]:
+        Button(vehicle_frame, text=vehicle, width=15, 
+               command=lambda v=vehicle: select_vehicle(v)).pack(side="left", padx=5)
 
-    map_widget = tkintermapview.TkinterMapView(frame, width=800, height=400, corner_radius=0)
-    map_widget.pack(pady=10, fill="both", expand=True)
+    # Button controls
+    button_frame = Frame(top_frame, bg="#D2B48C")
+    button_frame.pack(pady=10)
+
+    show_location_btn = Button(button_frame, text="Show My Location on Map")
+    show_location_btn.pack(side="left", padx=5)
+
+    confirm_button = Button(button_frame, text="Confirm Go Online", state="disabled")
+    confirm_button.pack(side="left", padx=5)
+
+    # Map section (fixed size, not expanding)
+    map_frame = Frame(main_container, bg="#D2B48C")
+    map_frame.pack(fill="both", expand=True)
+
+    map_widget = tkintermapview.TkinterMapView(map_frame, width=800, height=300, corner_radius=0)
+    map_widget.pack(pady=5)
     map_widget.set_position(11.5, 122.5)
     map_widget.set_zoom(5)
-
-    confirm_button = Button(top_frame, text="Confirm Go Online", state="disabled")
-    confirm_button.pack(pady=10)
 
     def show_location():
         location = location_entry.get().strip()
@@ -69,13 +90,12 @@ def load_driver_home(frame, driver_id):
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
-    # backend stuff go online then send to table 
     def go_online():
         location = location_data["location"]
         vehicle = selected["vehicle"]
 
         try:
-            response = requests.post(f"{API_URL}/sakay/driver_online.php", data={
+            response = requests.post(f"{connect_url}/sakay/driver_online.php", data={
                 "driver_id": driver_id,
                 "current_lat": location_data["lat"],
                 "current_lng": location_data["lng"],
@@ -94,7 +114,6 @@ def load_driver_home(frame, driver_id):
         except Exception as e:
             messagebox.showerror("Error", str(e))
 
+    # Connect button commands
+    show_location_btn.config(command=show_location)
     confirm_button.config(command=go_online)
-
-
-    Button(top_frame, text="Show My Location on Map", command=show_location).pack(pady=5)

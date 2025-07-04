@@ -1,0 +1,46 @@
+{
+  "transactions": [
+    {
+      "ride_request_id": 109,
+      "driver_id": 2,
+      "vehicle_type": "car4",
+      "fare_type": "Car (4-seater)",
+      "distance_km": 0.77,
+      "duration_minutes": 2.7,
+      "fare_amount": 62.04,
+      "ride_start_time": "2025-07-04T06:41:39.543994",
+      "ride_end_time": "2025-07-04T06:41:43.124791",
+      "pickup_location": "1016 Anonas, Santa Mesa, Manila, Kalakhang Maynila, Philippines",
+      "destination_location": "41 Anonas, Santa Mesa, Manila, 1016 Kalakhang Maynila, Philippines",
+      "driver_start_location": "Aurora Boulevard, 816 Aurora Blvd, Cubao, Quezon City, Metro Manila, Philippines"
+    },
+    {
+      "ride_request_id": 112,
+      "driver_id": 2,
+      "vehicle_type": "car4",
+      "fare_type": "Car (4-seater)",
+      "distance_km": 0.77,
+      "duration_minutes": 2.7,
+      "fare_amount": 62.04,
+      "ride_start_time": "2025-07-04T06:54:11.587969",
+      "ride_end_time": "2025-07-04T06:54:16.303779",
+      "pickup_location": "1016 Anonas, Santa Mesa, Manila, Kalakhang Maynila, Philippines",
+      "destination_location": "41 Anonas, Santa Mesa, Manila, 1016 Kalakhang Maynila, Philippines",
+      "driver_start_location": "Aurora Boulevard, 816 Aurora Blvd, Cubao, Quezon City, Metro Manila, Philippines"
+    },
+    {
+      "ride_request_id": 114,
+      "driver_id": 2,
+      "vehicle_type": "car4",
+      "fare_type": "Car (4-seater)",
+      "distance_km": 0.77,
+      "duration_minutes": 2.7,
+      "fare_amount": 62.04,
+      "ride_start_time": "2025-07-04T07:04:12.707011",
+      "ride_end_time": "2025-07-04T07:04:16.032448",
+      "pickup_location": "1016 Anonas, Santa Mesa, Manila, Kalakhang Maynila, Philippines",
+      "destination_location": "41 Anonas, Santa Mesa, Manila, 1016 Kalakhang Maynila, Philippines",
+      "driver_start_location": "158 J. Ruiz, Aurora Blvd, Quezon City, Metro Manila, Philippines"
+    }
+  ]
+}

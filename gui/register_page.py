@@ -4,7 +4,7 @@ from tkinter import messagebox
 from utils import cursor_hovering, cursor_not_hovering
 import requests
 
-connect_url = "https://7938-112-200-227-68.ngrok-free.app"
+connect_url = "https://5c23-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app"
 
 def open_register(parent, go_back):
     # window na pangalan lahat ng mga window naten wag kayong mag iba ng pangalan sa ibang mga file thank you

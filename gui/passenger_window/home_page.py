@@ -6,7 +6,9 @@ import re
 import tkintermapview
 import requests
 
+API_URL = "https://5c23-2001-4451-411d-7e00-a00-27ff-fe01-7f54.ngrok-free.app"
 API_KEY = "AIzaSyBQ2_ZV6KF2HQKy8qoewGXBJAcmJf__vSg" 
+
 gmaps = googlemaps.Client(key=API_KEY)
 
 def load_home(frame, uid):
@@ -33,7 +35,8 @@ def load_home(frame, uid):
         selected["vehicle"] = vehicle
         messagebox.showinfo("Vehicle Selected", f"You selected: {vehicle}")
 
-    for vehicle in ["UFO", "Tank", "Space Shuttle", "Jet Fighter"]:
+    # palitan nyo nlng dto
+    for vehicle in ["motorcycle", "car4", "car6", "tank"]:
         Button(top_frame, text=vehicle, width=20, command=lambda v=vehicle: select_vehicle(v)).pack(pady=2)
 
     route_label = Label(top_frame, text="", justify="left", font=("Arial", 10))
@@ -61,7 +64,7 @@ def load_home(frame, uid):
         }
 
         try:
-            response = requests.post("https://7938-112-200-227-68.ngrok-free.app/sakay/request_ride.php", data=payload)
+            response = requests.post(f"{API_URL}/sakay/request_ride.php", data=payload)
             data = response.json()
 
             if data.get("success"):
