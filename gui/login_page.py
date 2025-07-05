@@ -75,41 +75,42 @@ def login():
         print(f"[ERROR] Login failed: {e}")
         messagebox.showerror("Connection Error", f"could not connect:\n{e}")
 
-    
-
+#center
+login_container = tk.Frame(login_frame, bg='#D2B48C')
+login_container.place(relx=0.5, rely=0.5, anchor='center')
 
 #helper function angkalat kse eh grr
 def create_label(parent, text):
-    return tk.Label(parent, text=text, background='#D2B48C', fg='#643602', font=('Comic Sans MS', 9))
+    return tk.Label(parent, text=text, background='#D2B48C', fg='#643602', font=('Comic Sans MS', 12, "bold"))
 
 def create_entry(parent, **kwargs):
     return tk.Entry(parent, **kwargs)
 
 def create_button(parent, text, command):
-    btn = tk.Button(parent, text=text, command=command, font=("Comic Sans MS", 9),
+    btn = tk.Button(parent, text=text, command=command, font=("Comic Sans MS", 10),
                     bg='#D2B48C', fg='#643602', relief='flat', bd=1)
     btn.bind("<Enter>", cursor_hovering)
     btn.bind("<Leave>", cursor_not_hovering)
     return btn
 
 # username entry
-create_label((login_frame), "Username").pack(pady=(10, 0))
-username_Label = tk.Entry(login_frame)
+create_label((login_container), "Username").pack(pady=(10, 0))
+username_Label = tk.Entry(login_container)
 
-username_entry = tk.Entry(login_frame)
+username_entry = tk.Entry(login_container)
 username_entry.pack()
 
 # password entry
-create_label(login_frame, text="Password").pack(pady=(10,0))
-password_Label = tk.Entry(login_frame)
-password_entry = tk.Entry(login_frame)
+create_label(login_container, text="Password").pack(pady=(10,0))
+password_Label = tk.Entry(login_container)
+password_entry = tk.Entry(login_container, show="*")
 password_entry.pack()
 
 #gawin kolang sila variable para ma call ko ahhh
-Login_button = create_button(login_frame, text="Login", command=login)
+Login_button = create_button(login_container, text="Login", command=login)
 Login_button.pack(pady=10)
 
-Register_Button = create_button(login_frame, text="No account? Register", command=lambda: switch_frame(register_frame))
+Register_Button = create_button(login_container, text="No account? Register", command=lambda: switch_frame(register_frame))
 Register_Button.pack(pady=10)
 register_frame = open_register(window, lambda: switch_frame(login_frame))
 
